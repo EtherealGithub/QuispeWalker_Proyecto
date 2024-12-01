@@ -1,0 +1,25 @@
+
+Para crear base de datos:
+
+CREATE TABLE usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    correo VARCHAR(100) UNIQUE NOT NULL,
+    contraseña VARCHAR(255) NOT NULL,
+    imagen_url VARCHAR(500) ,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+Insersiones de ejemplo:
+INSERT INTO usuarios (nombre, apellido, correo, contraseña, imagen_url) 
+VALUES 
+('Hector', 'Hernandez', 'messisitajulio@gmail.com', 'password123', 'https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/493.png');
+
+INSERT INTO usuarios (nombre, apellido, correo, contraseña, imagen_url) 
+VALUES 
+('Mac', 'Lovin', 'noobmaster69@gmail.com', 'securePass456', 'https://cdn-images.dzcdn.net/images/cover/7b8a5edb3107c985ff36fc020245f84a/0x1900-000000-80-0-0.jpg');
+
+
+

@@ -110,7 +110,7 @@ public class UsuarioModelo implements UsuarioInterface {
 
         try {
             cn = MySqlConexion.getConexion();
-            String sql = "UPDATE usuarios SET nombre = ?, apellido = ?, correo = ?, contraseña = ?, imagen_url = ?, fecha_creacion = ? WHERE id_usuario = ?";
+            String sql = "UPDATE usuarios SET nombre = ?, apellido = ?, correo = ?, contraseña = ?, imagen_url = ? WHERE id_usuario = ?";
             psm = cn.prepareStatement(sql);
 
             psm.setString(1, usuario.getNombre());
@@ -118,9 +118,9 @@ public class UsuarioModelo implements UsuarioInterface {
             psm.setString(3, usuario.getCorreo());
             psm.setString(4, usuario.getContraseña());
             psm.setString(5, usuario.getImgUrl());
-            psm.setTimestamp(6, Timestamp.valueOf(usuario.getFechaCreacion()));  
-            psm.setInt(7, usuario.getIdUsuario());
-
+            psm.setInt(6, usuario.getIdUsuario());
+            
+            
             value = psm.executeUpdate();
 
         } catch (Exception e) {
