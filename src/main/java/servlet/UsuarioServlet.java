@@ -37,8 +37,14 @@ public class UsuarioServlet extends HttpServlet {
 		case "guardar": mostrarUsuariosGuardar(request, response); break;
 		case "modificar":mostrarUsuariosModificar(request, response); break;
 		case "eliminar":mostrarUsuariosEliminar(request, response); break;
+		
+		case "filtrar":filtrarUsuarios(request, response); break;
+		case "filtrarModificar":filtrarUsuariosModificar(request, response); break;
+		case "filtrarEliminar":filtrarUsuariosEliminar(request, response); break;
+
 		}
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -134,5 +140,31 @@ public class UsuarioServlet extends HttpServlet {
 		request.getRequestDispatcher("eliminarUsuarios.jsp").forward(request, response);
 	}
 	
+	//Filtrar
+	private void filtrarUsuarios(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int codigo = Integer.parseInt(request.getParameter("cboCodeUsuarios"));
+		UsuarioModelo model = new UsuarioModelo();
+		List<Usuario> usuarios = model.filterUsuarios(codigo);
+		request.setAttribute("listUsuario", usuarios);
+		request.getRequestDispatcher("mostrarUsuarios.jsp").forward(request, response);
+	}
+	
+
+	private void filtrarUsuariosModificar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int codigo = Integer.parseInt(request.getParameter("cboCodeUsuarios"));
+		UsuarioModelo model = new UsuarioModelo();
+		List<Usuario> usuarios = model.filterUsuarios(codigo);
+		request.setAttribute("listUsuario", usuarios);
+		request.getRequestDispatcher("modificarUsuarios.jsp").forward(request, response);
+	}
+	
+	private void filtrarUsuariosEliminar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int codigo = Integer.parseInt(request.getParameter("cboCodeUsuarios"));
+		UsuarioModelo model = new UsuarioModelo();
+		List<Usuario> usuarios = model.filterUsuarios(codigo);
+		request.setAttribute("listUsuario", usuarios);
+		request.getRequestDispatcher("eliminarUsuarios.jsp").forward(request, response);
+		
+	}
 
 }

@@ -48,11 +48,62 @@
             border-radius: 50%;
             object-fit: cover;
         }
+        
+       .custom-select {
+            border-radius: 30px;
+            padding: 0 20px;
+            border: 1px solid #007bff;
+            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .custom-select:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
+        .btn-filter {
+            border-radius: 30px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-filter:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5);
+        }
     </style>
 </head>
 <body class="p-4">
     <div class="container">
         <h1 class="text-center text-danger mb-4">Eliminar Usuarios</h1>
+        
+         <div class="col-md-6 mx-auto mb-4">
+            <form action="UsuarioServlet" method="get">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <select class="form-control custom-select" name="cboCodeUsuarios">
+                            <%
+                                List<Usuario> listUsuariox = (List<Usuario>) request.getAttribute("listUsuario");
+                                if (listUsuariox != null) {
+                                    for (Usuario item : listUsuariox) {
+                            %>
+                            <option value="<%=item.getIdUsuario()%>"><%=item.getIdUsuario()%></option>
+                            <%      }
+                                }
+                            %>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" name="action" value="filtrarEliminar" class="btn btn-filter">Filtrar Código</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
         <div class="text-start mb-3">
             <a href="UsuarioHome.jsp" class="btn btn-red">Regresar al Menú</a>
         </div>

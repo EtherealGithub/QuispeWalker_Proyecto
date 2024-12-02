@@ -131,6 +131,47 @@ public class UsuarioModelo implements UsuarioInterface {
 
         return value;
     }
+    
+    @Override
+    public List<Usuario> filterUsuarios(int id) {
+        List<Usuario> listUsuario = new ArrayList<>();
+        Connection cn = null;
+        PreparedStatement psm = null;
+        ResultSet rs = null;
+
+        try {
+            cn = MySqlConexion.getConexion();
+            String sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
+            psm = cn.prepareStatement(sql);
+            psm.setInt(1, id);
+            rs = psm.executeQuery();
+
+            while (rs.next()) {
+                Usuario u = new Usuario();
+                u.setIdUsuario(rs.getInt("id_usuario"));
+                u.setNombre(rs.getString("nombre"));
+                u.setApellido(rs.getString("apellido"));
+                u.setCorreo(rs.getString("correo"));
+                u.setContraseña(rs.getString("contraseña"));
+                u.setImgUrl(rs.getString("imagen_url"));
+                
+                Timestamp timestamp = rs.getTimestamp("fecha_creacion");
+                if (timestamp != null) {
+                    u.setFechaCreacion(timestamp.toLocalDateTime());
+                }
+
+                listUsuario.add(u);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(cn, psm, rs);
+        }
+
+        return listUsuario;
+    }
+
 
     public static void closeResources(Connection cn, PreparedStatement psm, ResultSet rs) {
         try {
