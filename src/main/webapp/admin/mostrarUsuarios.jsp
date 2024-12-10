@@ -65,7 +65,7 @@
         <h1>Tabla de Usuarios</h1>
         
         <div class="col-md-6 mx-auto mb-4">
-            <form action="UsuarioServlet" method="get">
+            <form action="../UsuarioServlet" method="get">
                 <div class="row align-items-center">
                     <div class="col-8">
                         <select class="form-control custom-select" name="cboCodeUsuarios">
@@ -86,7 +86,7 @@
                 </div>
             </form>
         </div>
-        <a href="UsuarioHome.jsp" class="btn btn-primary btn-back">Regresar al Menú</a>
+        <a href="admin/UsuarioHome.jsp" class="btn btn-primary btn-back">Regresar al Menú</a>
 
         <div class="table-container">
             <table class="table table-striped table-hover table-bordered">

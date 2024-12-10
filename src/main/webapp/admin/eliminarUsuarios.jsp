@@ -105,7 +105,7 @@
         </div>
         
         <div class="text-start mb-3">
-            <a href="UsuarioHome.jsp" class="btn btn-red">Regresar al Menú</a>
+            <a href="admin/UsuarioHome.jsp" class="btn btn-red">Regresar al Menú</a>
         </div>
 
         <form action="UsuarioServlet" method="post" class="p-4 rounded shadow-sm bg-white">

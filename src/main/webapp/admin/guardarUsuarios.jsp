@@ -57,7 +57,7 @@
 <body class="p-4">
     <div class="container">
         <h1 class="text-center mb-4">Guardar Usuarios</h1>
-        <a href="UsuarioHome.jsp" class="btn btn-primary btn-back">Regresar al Menú</a>
+        <a href="admin/UsuarioHome.jsp" class="btn btn-primary btn-back">Regresar al Menú</a>
 
         <div class="form-container">
             <form name="registration" action="UsuarioServlet" method="post">
