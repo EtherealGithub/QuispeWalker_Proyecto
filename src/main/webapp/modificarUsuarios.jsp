@@ -181,5 +181,53 @@
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("form[name='registration']").validate({
+                rules: {
+                    nombres: {
+                        required: true
+                    },
+                    apellidos: {
+                        required: true
+                    },
+                    correo: {
+                        required: true,
+                        email: true
+                    },
+                    contra: {
+                        required: true
+                    },
+                    img: {
+                        url: true
+                    }
+                },
+                messages: {
+                    nombres: {
+                        required: "Ingrese los nombres"
+                    },
+                    apellidos: {
+                        required: "Ingrese los apellidos"
+                    },
+                    correo: {
+                        required: "Ingrese el correo electrónico",
+                        email: "Ingrese un correo válido"
+                    },
+                    contra: {
+                        required: "Ingrese la contraseña"
+                    },
+                    img: {
+                        url: "Ingrese una URL válida"
+                    }
+                },
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+
