@@ -20,13 +20,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-white active" aria-current="page" href="inicio.jsp">Inicio</a>
+                    <a class="nav-link text-white active" aria-current="page" href="../inicio.jsp">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="UsuarioHome.jsp">Usuarios</a>
+                    <a class="nav-link text-white" href="../usuario/UsuarioHome.jsp">Usuarios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="productos.jsp">Productos</a>
+                    <a class="nav-link text-white" href="../productos.jsp">Productos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="AdministradorHome.jsp">Administradores</a>
@@ -40,9 +40,9 @@
     <h1 class="text-center">Bienvenido a la Vista de Administrador</h1>
     
     <div class="text-center mt-4">
-        <a href="GuardarAdministradorServlet" class="btn btn-primary">Crear Administrador</a>
-        <a href="AdministradorServlet?action=mostrar" class="btn btn-warning">Listar administradores</a>
-        <a href="EliminarAdministradorServlet" class="btn btn-danger">Eliminar Administrador</a>
+        <a href="GuardarAdministrador.jsp?action=guardar" class="btn btn-primary">Crear Administrador</a>
+		<a href="../../AdministradorServlet?action=mostrar" class="btn btn-warning">Listar administradores</a>
+		<a href="../../AdministradorServlet?action=eliminar" class="btn btn-danger">Eliminar Administrador</a>
     </div>
 </div>
 

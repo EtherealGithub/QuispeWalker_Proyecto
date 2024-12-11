@@ -1,0 +1,22 @@
+CREATE DATABASE dbproyectojq;
+USE dbproyectojq;
+
+CREATE TABLE Administradores (
+    dni CHAR(8) NOT NULL PRIMARY KEY, 
+    nombres VARCHAR(100) NOT NULL,  
+    apellidos VARCHAR(100) NOT NULL, 
+    correo VARCHAR(100) NOT NULL,  
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO Administradores (dni, nombres, apellidos, correo)
+VALUES
+('10101010', 'Carlos', 'Perez', 'carlos.perez@gmail.com'),
+('20202020', 'Lucia', 'Gomez', 'lucia.gomez@yahoo.com'),
+('30303030', 'Javier', 'Lopez', 'javier.lopez@hotmail.com'),
+('40404040', 'Ana', 'Martinez', 'ana.martinez@gmail.com'),
+('50505050', 'Diego', 'Fernandez', 'diego.fernandez@outlook.com'),
+('60606060', 'Claudia', 'Vega', 'claudia.vega@gmail.com'),
+('70707070', 'Fernando', 'Castro', 'fernando.castro@gmail.com');
+
+SELECT * FROM administradores;

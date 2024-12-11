@@ -22,7 +22,7 @@
 
         <div class="card p-4 mb-4">
             <h4 class="card-title"><%= (adminSeleccionado != null) ? "Modificar Administrador" : "Registrar Administrador" %></h4>
-            <form name="adminForm" action="GuardarAdministradorServlet" method="post">
+			<form name="adminForm" action="../../AdministradorServlet?action=<%= action %>" method="post">
                 <div class="mb-3">
                     <label for="dni" class="form-label">DNI:</label>
                     <input type="text" class="form-control" id="dni" name="dni" value="<%= (adminSeleccionado != null) ? adminSeleccionado.getDni() : "" %>" <%= (adminSeleccionado != null) ? "readonly" : "" %> required>
@@ -44,11 +44,6 @@
                 </button>
             </form>
         </div>
-
-        <!-- Botón para cargar la lista de administradores -->
-        <form action="MostrarAdministradoresServlet" method="get">
-            <button type="submit" class="btn btn-primary w-100 mb-4">Cargar Administradores</button>
-        </form>
 
         <h3 class="text-center">Lista de Administradores</h3>
         <table class="table table-striped table-hover table-bordered mt-3">
@@ -75,8 +70,8 @@
                     <td><%= admin.getCorreo() %></td>
                     <td><%= admin.getFechaCreacion() %></td>
                     <td>
-                        <a href="ModificarAdministradorServlet?dni=<%= admin.getDni() %>" class="btn btn-warning btn-sm">Modificar</a>
-                        <a href="EliminarAdministradorServlet?dni=<%= admin.getDni() %>" class="btn btn-danger btn-sm">Eliminar</a>
+                        <a href="AdministradorServlet?action=modificar&dni=<%= admin.getDni() %>" class="btn btn-warning btn-sm">Modificar</a>
+                        <a href="AdministradorServlet?action=eliminar&dni=<%= admin.getDni() %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este administrador?');">Eliminar</a>
                     </td>
                 </tr>
                 <%

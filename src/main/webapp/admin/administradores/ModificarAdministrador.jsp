@@ -39,7 +39,7 @@
         <a href="AdministradorServlet?action=mostrar" class="btn btn-primary mb-4">Volver a la Lista</a>
 
         <div class="form-container">
-            <form action="ModificarAdministradorServlet" method="post">
+            <form action="AdministradorServlet?action=modificar" method="post">
                 <div class="form-group mb-3">
                     <label for="dni">DNI:</label>
                     <input type="text" class="form-control" id="dni" name="dni" value="<%= ((Administrador) request.getAttribute("adminSeleccionado")).getDni() %>" readonly>
@@ -83,8 +83,8 @@
                     <td><%= admin.getApellido() %></td>
                     <td><%= admin.getCorreo() %></td>
                     <td>
-                        <a href="ModificarAdministradorServlet?dni=<%= admin.getDni() %>" class="btn btn-warning btn-sm">Modificar</a>
-                        <a href="EliminarAdministradorServlet?dni=<%= admin.getDni() %>" class="btn btn-danger btn-sm">Eliminar</a>
+                        <a href="../../AdministradorServlet?action=modificar&dni=<%= admin.getDni() %>" class="btn btn-warning btn-sm">Modificar</a>
+                        <a href="AdministradorServlet?action=eliminar&dni=<%= admin.getDni() %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este administrador?');">Eliminar</a>
                     </td>
                 </tr>
                 <%

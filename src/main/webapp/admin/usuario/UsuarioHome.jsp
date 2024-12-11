@@ -49,7 +49,7 @@
                 </li>
    
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="administradores.jsp">Administradores</a>
+                    <a class="nav-link text-white" href="../administradores/AdministradorHome.jsp">Administradores</a>
                 </li>
             </ul>
         </div>

@@ -12,7 +12,7 @@
 <body class="p-4 bg-light">
     <div class="container">
         <h1 class="text-center mb-4 text-primary">Eliminar Administradores</h1>
-        <a href="AdministradorHome.jsp" class="btn btn-secondary mb-4">Regresar al Menú</a>
+        <a href="admin/administradores/AdministradorHome.jsp" class="btn btn-secondary mb-4">Regresar al Menú</a>
 
         <!-- Formulario de búsqueda -->
         <form action="AdministradorServlet" method="get" class="mb-4">
@@ -52,7 +52,7 @@
                     <td><%= admin.getCorreo() %></td>
                     <td><%= admin.getFechaCreacion() %></td>
                     <td>
-                        <a href="EliminarAdministradorServlet?dni=<%= admin.getDni() %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este administrador?');">Eliminar</a>
+                        <a href="AdministradorServlet?action=eliminar&dni=<%= admin.getDni() %>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este administrador?');">Eliminar</a>
                     </td>
                 </tr>
                 <%
