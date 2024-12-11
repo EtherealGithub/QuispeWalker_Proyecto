@@ -97,7 +97,7 @@
             <a href="admin/usuario/UsuarioHome.jsp" class="btn btn-yellow " >Regresar al Menú</a>
         </div>
 
-        <form action="UsuarioServlet" method="post" class="p-4 rounded shadow-sm bg-white">
+        <form action="../../UsuarioServlet" method="post" class="p-4 rounded shadow-sm bg-white">
             <div class="mb-3">
                 <label for="idid" class="form-label">ID</label>
                 <input type="text" name="id" id="idid" class="form-control" readonly>
