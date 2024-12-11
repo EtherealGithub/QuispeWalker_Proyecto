@@ -86,7 +86,7 @@
                 </div>
             </form>
         </div>
-        <a href="admin/UsuarioHome.jsp" class="btn btn-primary btn-back">Regresar al Menú</a>
+        <a href="admin/usuario/UsuarioHome.jsp" class="btn btn-primary btn-back">Regresar al Menú</a>
 
         <div class="table-container">
             <table class="table table-striped table-hover table-bordered">

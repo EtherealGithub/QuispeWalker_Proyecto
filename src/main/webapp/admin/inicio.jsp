@@ -26,7 +26,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="UsuarioHome.jsp">Usuarios</a>
+                    <a class="nav-link text-white" href="usuario/UsuarioHome.jsp">Usuarios</a>
                 </li>
 
                 <li class="nav-item">

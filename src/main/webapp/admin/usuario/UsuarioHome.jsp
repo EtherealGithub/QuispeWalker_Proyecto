@@ -56,7 +56,7 @@
     </div>
 </nav>
 <div class="container my-5">
-    <form action="../UsuarioServlet" method="get">
+    <form action="../../UsuarioServlet" method="get">
         <div class="row text-center">
 
             <div class="col-md-3">

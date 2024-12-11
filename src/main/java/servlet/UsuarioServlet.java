@@ -63,7 +63,7 @@ public class UsuarioServlet extends HttpServlet {
 		UsuarioModelo model = new UsuarioModelo();
 		List<Usuario> usuarios =model.listUsuario();
 		request.setAttribute("listUsuario", usuarios);
-		request.getRequestDispatcher("admin/mostrarUsuarios.jsp").forward(request, response);
+		request.getRequestDispatcher("admin/usuario/mostrarUsuarios.jsp").forward(request, response);
 	}
 	
 	// Guardar 
@@ -90,7 +90,7 @@ public class UsuarioServlet extends HttpServlet {
 		UsuarioModelo model = new UsuarioModelo();
 		List<Usuario> usuarios =model.listUsuario();		
 		request.setAttribute("listUsuario", usuarios);
-		request.getRequestDispatcher("admin/guardarUsuarios.jsp").forward(request, response);
+		request.getRequestDispatcher("admin/usuario/guardarUsuarios.jsp").forward(request, response);
 	}
 	
 	// Modificar 
@@ -120,7 +120,7 @@ public class UsuarioServlet extends HttpServlet {
 		List<Usuario> usuarios =model.listUsuario();
 		
 		request.setAttribute("listUsuario", usuarios);
-		request.getRequestDispatcher("admin/modificarUsuarios.jsp").forward(request, response);
+		request.getRequestDispatcher("admin/usuario/modificarUsuarios.jsp").forward(request, response);
 	}
 
 	// Eliminar 
@@ -137,7 +137,7 @@ public class UsuarioServlet extends HttpServlet {
 		UsuarioModelo model = new UsuarioModelo();
 		List<Usuario> usuarios =model.listUsuario();
 		request.setAttribute("listUsuario", usuarios);
-		request.getRequestDispatcher("admin/eliminarUsuarios.jsp").forward(request, response);
+		request.getRequestDispatcher("admin/usuario/eliminarUsuarios.jsp").forward(request, response);
 	}
 	
 	//Filtrar
@@ -146,7 +146,7 @@ public class UsuarioServlet extends HttpServlet {
 		UsuarioModelo model = new UsuarioModelo();
 		List<Usuario> usuarios = model.filterUsuarios(codigo);
 		request.setAttribute("listUsuario", usuarios);
-		request.getRequestDispatcher("admin/mostrarUsuarios.jsp").forward(request, response);
+		request.getRequestDispatcher("admin/usuario/mostrarUsuarios.jsp").forward(request, response);
 	}
 	
 
@@ -155,7 +155,7 @@ public class UsuarioServlet extends HttpServlet {
 		UsuarioModelo model = new UsuarioModelo();
 		List<Usuario> usuarios = model.filterUsuarios(codigo);
 		request.setAttribute("listUsuario", usuarios);
-		request.getRequestDispatcher("admin/modificarUsuarios.jsp").forward(request, response);
+		request.getRequestDispatcher("admin/usuario/modificarUsuarios.jsp").forward(request, response);
 	}
 	
 	private void filtrarUsuariosEliminar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -163,7 +163,7 @@ public class UsuarioServlet extends HttpServlet {
 		UsuarioModelo model = new UsuarioModelo();
 		List<Usuario> usuarios = model.filterUsuarios(codigo);
 		request.setAttribute("listUsuario", usuarios);
-		request.getRequestDispatcher("admin//eliminarUsuarios.jsp").forward(request, response);
+		request.getRequestDispatcher("admin/usuario/eliminarUsuarios.jsp").forward(request, response);
 		
 	}
 
