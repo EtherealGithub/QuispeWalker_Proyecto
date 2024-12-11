@@ -1,0 +1,396 @@
+@charset "UTF-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+body {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+}
+
+/* Estilo  */
+.hero {
+    position: relative;
+    height: 100vh;
+    background: url('../imgs/Fondo.jpg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+header.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    background: rgba(49, 48, 46, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: 60px;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+header .logo img {
+    width: 80px;
+    object-fit: cover;
+    transition: width 0.3s ease;
+}
+
+header .logo span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #d1a575;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+header .menu {
+    display: flex;
+    gap: 20px;
+}
+
+header .menu a {
+    font-size: 1rem;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+header .menu a:hover {
+    color: #d1a575;
+}
+
+header .menu a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #d1a575;
+    transition: width 0.3s ease;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+}
+
+header .menu a:hover::after {
+    width: 100%;
+}
+
+header .logo:hover {
+    transform: scale(1.1);
+}
+
+header .logo img:hover {
+    width: 90px;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 30px;
+    height: 4px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+
+.hero-content {
+    margin-top: auto;
+    margin-bottom: 20%;
+    opacity: 0; 
+    filter: blur(10px); 
+    animation: aparecerNitido 1.5s ease-out forwards; /
+}
+
+@keyframes aparecerNitido {
+    0% {
+        opacity: 0;
+        filter: blur(10px); 
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0); 
+    }
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+}
+.hero2 {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    position: relative; 
+    overflow: hidden; 
+    background: url('../imgs/fondo2.jpg') no-repeat center center/cover;
+}
+
+/* Imagen que se desliza */
+.slide-in-image {
+    width: 70%; 
+    height: 90%; 
+    background-image: url('../imgs/frame1.png'); /* Ruta de la imagen */
+    background-size: cover;
+    background-position: center;
+    position: relative; 
+    transform: translateX(-100%); 
+    opacity: 0; 
+    transition: transform 2s ease-out, opacity 1.5s ease-out; 
+}
+
+/* Texto al lado de la imagen */
+.hero2-text {
+    width: 50%; 
+    padding: 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    opacity: 0; 
+    transition: opacity 5s ease-out; 
+}
+
+
+.hero2.active .slide-in-image {
+    transform: translateX(0); 
+    opacity: 1; 
+}
+
+.hero2.active .hero2-text {
+    opacity: 1; 
+}
+.hero3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    position: relative; 
+    overflow: hidden; 
+    background: url('../imgs/fondo3.jpg') no-repeat center center/cover;
+}
+
+/* Texto al lado de la imagen */
+.hero3-text {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    opacity: 0; 
+    transition: opacity 1.5s ease-out; 
+}
+
+/* Imagen que se desliza */
+.slide-in-image3 {
+    flex: 1;
+    background: url('../imgs/frame2.png') no-repeat center center / cover; /*  ruta de la imagen */
+    transform: translateX(100%); 
+    opacity: 0; 
+    transition: transform 1.5s ease-out, opacity 1.5s ease-out; 
+    height: 76%;
+    width: 50%;
+}
+
+
+.hero3.active .slide-in-image3 {
+    transform: translateX(0); 
+    opacity: 1; 
+}
+
+.hero3.active .hero3-text {
+    opacity: 1; 
+}
+/* Contenedor */
+.hero4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    position: relative; 
+    overflow: hidden; 
+    background: url('../imgs/fondo4.jpg') no-repeat center center/cover; /* Fondo  */
+}
+
+/* Texto para hero4 */
+.hero4-text {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    opacity: 0; 
+    transition: opacity 1.5s ease-out; 
+}
+
+/* Imagen para hero4 */
+.slide-in-image4 {
+    flex: 1;
+    background: url('../imgs/frame2.png') no-repeat center center / cover; /* Imagen */
+    transform: translateX(-100%); 
+    opacity: 0; /* Inicialmente invisible */
+    transition: transform 1.5s ease-out, opacity 1.5s ease-out; 
+    height: 75%;
+    
+}
+
+
+.hero4.active .slide-in-image4 {
+    transform: translateX(0); 
+    opacity: 1; 
+}
+
+.hero4.active .hero4-text {
+    opacity: 1; 
+}
+
+/* Contenedor hero5 */
+.hero5 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 110vh; 
+    position: relative; 
+    overflow: hidden; 
+    background: url('../imgs/fondo5.jpg') no-repeat center center/cover; /* Fondo */
+}
+
+/* Texto para hero5 */
+.hero5-text {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    opacity: 0; 
+    transition: opacity 1.5s ease-out;
+}
+
+/* Imagen para hero5 */
+.slide-in-image5 {
+    flex: 1;
+    background: url('../imgs/frame4.png') no-repeat center center / cover; 
+    transform: translateX(100%); 
+    opacity: 0; 
+    transition: transform 1.5s ease-out, opacity 1.5s ease-out; 
+    height: 69%;
+    
+}
+
+
+.hero5.active .slide-in-image5 {
+    transform: translateX(0); 
+    opacity: 1; 
+}
+
+.hero5.active .hero5-text {
+    opacity: 7; 
+}
+
+
+footer {
+    background: #1a1a1a;
+    color: #d1a575;
+    padding: 40px 20px;
+    font-size: 14px;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.footer-contact,
+.footer-links,
+.footer-social {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-contact h3,
+.footer-links h3,
+.footer-social h3 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #d1a575;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.footer-contact p {
+    margin: 8px 0;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li {
+    margin: 8px 0;
+}
+
+.footer-links ul li a {
+    color: #d1a575;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links ul li a:hover {
+    color: orangered;
+}
+
+.footer-social .social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-social .social-icons img {
+    border-radius: 50%;
+    width: 30px;
+    filter: grayscale(100%);
+    transition: all 0.3s;
+}
+
+.footer-social .social-icons img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.1);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+.footer-bottom p {
+    margin: 0;
+}

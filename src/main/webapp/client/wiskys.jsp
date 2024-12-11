@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JQ-Piscos</title>
+    <title>JQ-Wiskys</title>
     <link rel="stylesheet" href="css/productos.css">
 </head>
 <body>
@@ -15,11 +15,11 @@
             <span>JONNY QUISPE</span>
         </div>
         <nav class="menu">
-            <a href="Principal.html">Inicio</a>
-            <a href="Catalogo.html">Piscos</a>
-            <a href="Catalogo.html">Vinos</a>
-            <a href="Catalogo.html">Wisky</a>
-            <a href="Nosotros.html">About</a>
+            <a href="index.jsp">Inicio</a>
+            <a href="piscos.jsp">Piscos</a>
+            <a href="vinos.jsp">Vinos</a>
+            <a href="wiskys.jsp">Wisky</a>
+            <a href="about.jsp">About</a>
         </nav>
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -30,7 +30,7 @@
     
     <main>
         <section class="hero">
-            <img src="/images/catalogo/Banner-Producto-Pisco.jpg" alt="">
+            <img src="imgs/BannerWisky.jpg" alt="">
             <h1>Bienvenido a Jonny Quispe</h1>
             <p>Explora nuestra colección de whiskies y vinos exclusivos</p>
         </section>

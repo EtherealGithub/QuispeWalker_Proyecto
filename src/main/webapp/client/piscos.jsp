@@ -15,11 +15,11 @@
             <span>JONNY QUISPE</span>
         </div>
         <nav class="menu">
-            <a href="Principal.html">Inicio</a>
-            <a href="Catalogo.html">Piscos</a>
-            <a href="Catalogo.html">Vinos</a>
-            <a href="Catalogo.html">Wisky</a>
-            <a href="Nosotros.html">About</a>
+            <a href="index.jsp">Inicio</a>
+            <a href="piscos.jsp">Piscos</a>
+            <a href="vinos.jsp">Vinos</a>
+            <a href="wiskys.jsp">Wisky</a>
+            <a href="about.jsp">About</a>
         </nav>
         <div class="hamburger" id="hamburger">
             <span></span>
