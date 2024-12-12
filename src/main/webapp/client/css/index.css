@@ -47,7 +47,7 @@ header .logo {
 }
 
 header .logo img {
-    width: 80px;
+    width: 45px;
     object-fit: cover;
     transition: width 0.3s ease;
 }

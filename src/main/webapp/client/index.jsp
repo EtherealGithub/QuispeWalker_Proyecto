@@ -10,7 +10,7 @@
     <div class="hero">
          <header class="navbar">
         <div class="logo">
-            <img src="imgs/LOGO-JQ.png" alt="JQLogo">
+            <img src="imgs/Logo_Quispe_Walker.png" alt="JQLogo">
             <span>JONNY QUISPE</span>
         </div>
         <nav class="menu">
