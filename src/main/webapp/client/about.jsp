@@ -203,7 +203,7 @@
 								<div class="col-md-10">
 									<div class="column_attr clearfix mobile_align_center"><img class="scale-with-grid" src="imgs/Kero_Whisky_V2.png" style="height: 100px;" />
 										<hr class="no_line" style="margin: 0 auto 20px auto" />
-										<h2><span style="color:#F4DECE;">Calidad y Prestigio</span>  en Cada Botella.</h2> <img class="scale-with-grid" src="images/whiskey2-icon3.svg" />
+										<h2><span style="color:#F4DECE;">Calidad y Prestigio</span> en Cada Botella.</h2> <img class="scale-with-grid" src="images/whiskey2-icon3.svg" />
 										<hr class="no_line" style="margin: 0 auto 40px auto" />
 										<p> Nos enorgullecemos de ofrecer solo los whiskys de la más alta calidad. <br> Cada botella en nuestra colección proviene de marcas reconocidas mundialmente por su excelencia y tradición. </p>
 									</div>
