@@ -9,9 +9,9 @@ public class MySqlConexion {
 	Connection con = null;
 	 try {
 		Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-		String url = "jdbc:mysql://localhost:3306/dbproyectojq?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-		String usr = "root";
-		String psw = "27182"; 
+		String url = "jdbc:mysql://mysql-489a09e-fabrizio-83b5.g.aivencloud.com:20113/dbproyectojq?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+		String usr = "avnadmin";
+		String psw = ""; //Compeltar
 		con = DriverManager.getConnection(url,usr,psw);
 	} catch (ClassNotFoundException e) {
 		// TODO: handle exception
