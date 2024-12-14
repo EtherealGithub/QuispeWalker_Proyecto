@@ -36,7 +36,7 @@ header.navbar {
     left: 0;
     right: 0;
     z-index: 1000;
-    height: 60px;
+    height: 65px;
 }
 
 header .logo {
@@ -47,7 +47,7 @@ header .logo {
 }
 
 header .logo img {
-    width: 45px;
+    width: 43px;
     object-fit: cover;
     transition: width 0.3s ease;
 }

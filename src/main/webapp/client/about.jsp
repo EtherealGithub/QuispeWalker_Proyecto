@@ -16,8 +16,8 @@
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Barlow+Condensed:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Big+Shoulders+Display:100,200,300,400,400italic,500,600,700,700italic,900'>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'>
 	<!-- Bootstrap core CSS -->
-	
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<!--CSS -->
 	<link rel='stylesheet' href='css/whiskeyAbout.css'> 
@@ -110,7 +110,7 @@
 							<div class="row">
 								<div class="col-12">
 									<div class="image_frame image_item no_link scale-with-grid no_border">
-										<div class="image_wrapper"><img class="scale-with-grid" src="imgs/Coco_Basile_Elissir.png" alt="" width="790" height="792" /> </div>
+										<div class="image_wrapper"><img class="scale-with-grid" src="imgs/CocoBasileElissir.png" alt="" width="790" height="792" /> </div>
 									</div>
 								</div>
 							</div>
@@ -163,7 +163,7 @@
 								<div class="col-12">
 									<div class="column_attr clearfix mobile_align_center">
 										<br><br><br><br><br><br>
-										<hr class="no_line" style="margin: 0 auto 25px auto" /> <a class="button button_size_2" href=""><span class="button_label" style="padding: 16px 32px 16px 32px; border-style: solid;">CONTACTANOS</span></a> </div>
+										<hr class="no_line" style="margin: 0 auto 25px auto" /> <a class="button button_size_2" href=""><span class="button_label">CONTACTANOS</span></a> </div>
 								</div>
 							</div>
 						</div>
@@ -258,7 +258,7 @@
 				</div>
 			</div>
 			<div class="footer-bottom">
-				<a id="back_to_top" class="footer_button" href="#"><i class="icon-up-open-big"></i></a>
+		    	<a id="back_to_top" class="footer_button" href="#" style="float: right;"><i class="fas fa-arrow-up"></i></a>
 				<p>&copy; 2024 JonnyQuispe. Todos los derechos reservados.</p>
 			</div>
 		</footer>
