@@ -11,7 +11,8 @@ public class MySqlConexion {
 		Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 		String url = "jdbc:mysql://mysql-489a09e-fabrizio-83b5.g.aivencloud.com:20113/dbproyectojq?useSSL=false&useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true";
 		String usr = "avnadmin";
-		String psw = ""; //Compeltar
+		String encodedKey = "QVZOU19MZmlfZnRKYWFVLTJMS1ZUTlYz";
+		String psw = new String(java.util.Base64.getDecoder().decode(encodedKey));
 		con = DriverManager.getConnection(url,usr,psw);
 	} catch (ClassNotFoundException e) {
 		// TODO: handle exception
