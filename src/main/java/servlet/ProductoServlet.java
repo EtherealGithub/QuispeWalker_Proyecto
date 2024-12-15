@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entidades.Producto;
+import entidades.Productos.Categoria;
+import entidades.Productos.Producto;
 import modelos.ProductoModelo;
 
 /**
@@ -17,28 +18,21 @@ import modelos.ProductoModelo;
  */
 @WebServlet("/ProductoServlet")
 public class ProductoServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private ProductoModelo productoModelo = new ProductoModelo();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private static final long serialVersionUID = 1L;
+    private ProductoModelo productoModelo = new ProductoModelo();
+
     public ProductoServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	procesarSolicitud(request, response);
+        procesarSolicitud(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	procesarSolicitud(request, response);
+        procesarSolicitud(request, response);
     }
-    
+
     private void procesarSolicitud(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         try {
@@ -47,13 +41,13 @@ public class ProductoServlet extends HttpServlet {
                     mostrarProductos(request, response);
                     break;
                 case "agregar":
-                    agregarOActualizarProducto(request, response, false);
-                    break;
-                case "actualizar":
-                    agregarOActualizarProducto(request, response, true);
+                    agregarProducto(request, response);
                     break;
                 case "eliminar":
                     eliminarProducto(request, response);
+                    break;
+                case "editar": 
+                    editarProducto(request, response);
                     break;
                 default:
                     enviarError(response, "Acción no soportada");
@@ -65,32 +59,74 @@ public class ProductoServlet extends HttpServlet {
 
     private void mostrarProductos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Producto> productos = productoModelo.obtenerProductos();
-
-        String mensajeExito = (String) request.getSession().getAttribute("mensajeExito");
-        String mensajeError = (String) request.getSession().getAttribute("mensajeError");
-        request.setAttribute("mensajeExito", mensajeExito);
-        request.setAttribute("mensajeError", mensajeError);
-        request.getSession().removeAttribute("mensajeExito");
-        request.getSession().removeAttribute("mensajeError");
+        List<Categoria> categorias = productoModelo.obtenerCategorias();
 
         request.setAttribute("listProducto", productos);
+        request.setAttribute("categorias", categorias);
         request.getRequestDispatcher("admin/producto/ProductosHome.jsp").forward(request, response);
     }
 
-    private void agregarOActualizarProducto(HttpServletRequest request, HttpServletResponse response, boolean esActualizacion) throws ServletException, IOException {
+    private void editarProducto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        int idCategoria = Integer.parseInt(request.getParameter("id_categoria"));
+
+        Categoria categoria = productoModelo.obtenerCategorias().stream()
+                .filter(cat -> cat.getIdCategoria() == idCategoria)
+                .findFirst()
+                .orElse(null);
+
+        if (categoria == null) {
+            enviarError(response, "Categoría no encontrada");
+            return;
+        }
+
         Producto producto = new Producto(
-            esActualizacion ? request.getParameter("id") : null,
-            request.getParameter("nombre"),
-            request.getParameter("precio"),
-            request.getParameter("stock"),
-            request.getParameter("imagen")
+            Integer.parseInt(request.getParameter("id")), 
+            request.getParameter("nombre"),               
+            Double.parseDouble(request.getParameter("precio")), 
+            Integer.parseInt(request.getParameter("stock")), 
+            request.getParameter("imagen"),               
+            categoria
         );
 
-        boolean success = esActualizacion ? productoModelo.actualizarProducto(producto) : productoModelo.agregarProducto(producto);
+        boolean success = productoModelo.actualizarProducto(producto);
 
         request.getSession().setAttribute(success ? "mensajeExito" : "mensajeError",
-                success ? "Producto " + (esActualizacion ? "actualizado" : "agregado") + " exitosamente."
+                success ? "Producto actualizado exitosamente."
                         : "Error al procesar el producto.");
+
+        response.sendRedirect(request.getContextPath() + "/ProductoServlet?action=mostrar");
+    }
+
+    private void agregarProducto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String nombre = request.getParameter("nombre");
+        String precioStr = request.getParameter("precio");
+        String stockStr = request.getParameter("stock");
+        String imagen = request.getParameter("imagen");
+        String idCategoriaStr = request.getParameter("id_categoria");
+
+        int idCategoria = Integer.parseInt(idCategoriaStr);
+
+        Categoria categoria = productoModelo.obtenerCategorias().stream()
+                .filter(cat -> cat.getIdCategoria() == idCategoria)
+                .findFirst()
+                .orElse(null);
+
+        if (categoria == null) {
+            enviarError(response, "Categoría no encontrada");
+            return;
+        }
+
+        double precio = Double.parseDouble(precioStr);
+        int stock = Integer.parseInt(stockStr);
+
+        Producto producto = new Producto(nombre, precio, stock, imagen, categoria);
+
+        boolean success = productoModelo.agregarProducto(producto);
+
+        request.getSession().setAttribute(success ? "mensajeExito" : "mensajeError",
+                success ? "Producto agregado exitosamente."
+                        : "Error al agregar el producto.");
 
         response.sendRedirect(request.getContextPath() + "/ProductoServlet?action=mostrar");
     }
@@ -109,6 +145,4 @@ public class ProductoServlet extends HttpServlet {
     private void enviarError(HttpServletResponse response, String mensaje) throws IOException {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, mensaje);
     }
-
-
 }

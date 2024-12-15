@@ -1,4 +1,5 @@
-<%@ page import="entidades.Producto"%>
+<%@page import="entidades.Productos.Categoria"%>
+<%@ page import="entidades.Productos.Producto"%>
 <%@ page import="java.util.List"%>
 
 <!DOCTYPE html>
@@ -63,54 +64,57 @@
                     <hr>
 
                     <table id="datatablesSimple" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Imagen</th>
-                                <th style="width: 5%" data-sortable="false"></th>
-                                <th style="width: 5%" data-sortable="false"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-							<% 
-							    List<Producto> productos = (List<Producto>) request.getAttribute("listProducto");
-							    if (productos != null) {
-							        for (Producto producto : productos) {
-							%>
-							        <tr>
-							            <td><%= producto.getNombre() %></td>
-							            <td><%= producto.getPrecio() %></td>
-							            <td><%= producto.getStock() %></td>
-							            <td><%= producto.getImagen() %></td>
-							            <td>
-										    <button type="button" class="btn btn-warning btn-sm" 
-										            data-bs-toggle="modal" 
-										            data-bs-target="#editarProductoModal"
-										            data-bs-id="<%= producto.getId() %>"
-										            data-bs-nombre="<%= producto.getNombre() %>"
-										            data-bs-precio="<%= producto.getPrecio() %>"
-										            data-bs-stock="<%= producto.getStock() %>"
-										            data-bs-imagen="<%= producto.getImagen() %>">
-										        <i class="bi bi-pencil"></i> Editar
-										    </button>
-							            </td>
-							            <td>
-							                <button type="button" 
-							                		class="btn btn-danger btn-sm" 
-							                		data-bs-toggle="modal" 
-							                		data-bs-target="#eliminaModal" 
-							                		data-bs-id="<%= producto.getId() %>">
-							                    <i class="bi bi-trash"></i> Eliminar
-							                </button>
-							            </td>
-							        </tr>
-							<% 
-							        }
-							    }
-							%>
-                        </tbody>
+						<thead>
+						    <tr>
+						        <th>Nombre</th>
+						        <th>Precio</th>
+						        <th>Stock</th>
+						        <th>Imagen</th>
+						        <th>Categoría</th> <!-- Nueva columna -->
+						        <th style="width: 5%" data-sortable="false"></th>
+						        <th style="width: 5%" data-sortable="false"></th>
+						    </tr>
+						</thead>
+						<tbody>
+						    <% 
+						        List<Producto> productos = (List<Producto>) request.getAttribute("listProducto");
+						        if (productos != null) {
+						            for (Producto producto : productos) {
+						    %>
+						            <tr>
+						                <td><%= producto.getNombre() %></td>
+						                <td><%= producto.getPrecio() %></td>
+						                <td><%= producto.getStock() %></td>
+						                <td><img src="<%= producto.getImagen() %>" alt="Imagen del Producto" style="width: 50px;"></td>
+						                <td><%= producto.getCategoria().getNombre() %></td>
+						                <td>
+						                    <button type="button" class="btn btn-warning btn-sm" 
+						                            data-bs-toggle="modal" 
+						                            data-bs-target="#editarProductoModal"
+						                            data-bs-id="<%= producto.getId() %>"
+						                            data-bs-nombre="<%= producto.getNombre() %>"
+						                            data-bs-precio="<%= producto.getPrecio() %>"
+						                            data-bs-stock="<%= producto.getStock() %>"
+						                            data-bs-imagen="<%= producto.getImagen() %>"
+						                            data-bs-id-categoria="<%= producto.getCategoria().getIdCategoria() %>">
+						                        <i class="bi bi-pencil"></i> Editar
+						                    </button>
+						                </td>
+						                <td>
+						                    <button type="button" 
+						                            class="btn btn-danger btn-sm" 
+						                            data-bs-toggle="modal" 
+						                            data-bs-target="#eliminaModal" 
+						                            data-bs-id="<%= producto.getId() %>">
+						                        <i class="bi bi-trash"></i> Eliminar
+						                    </button>
+						                </td>
+						            </tr>
+						    <% 
+						            }
+						        }
+						    %>
+						</tbody>
                     </table>
                     
                     <hr>
@@ -136,6 +140,11 @@
 						%>
                 </div>
             </main>
+            
+            <%
+            	List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
+			%>
+            
 
 	        <!-- Modal de confirmación de eliminación -->
 	        <div class="modal fade" id="eliminaModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
@@ -158,81 +167,103 @@
 	        </div>
 	        
 		    <!-- Modal para agregar un producto -->
-		    <div class="modal fade" id="agregarProductoModal" tabindex="-1" aria-labelledby="agregarProductoModalLabel" aria-hidden="true">
-		        <div class="modal-dialog">
-		            <div class="modal-content">
-		                <div class="modal-header">
-		                    <h5 class="modal-title" id="agregarProductoModalLabel">Agregar Producto</h5>
-		                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		                </div>
+	        <div class="modal fade" id="agregarProductoModal" tabindex="-1" aria-labelledby="agregarProductoModalLabel" aria-hidden="true">
+	            <div class="modal-dialog">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+	                        <h5 class="modal-title" id="agregarProductoModalLabel">Agregar Producto</h5>
+	                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                    </div>
 	                    <form action="ProductoServlet?action=agregar" method="POST">
-		                    <div class="modal-body">
-		                        <div class="form-group">
-		                            <label for="nombre" class="form-label">Nombre</label>
-		                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-		                        </div>
-		                        <div class="form-group">
-		                            <label for="precio" class="form-label">Precio</label>
-		                            <input type="number" class="form-control" id="precio" name="precio" required>
-		                        </div>
-		                        <div class="form-group">
-		                            <label for="stock" class="form-label">Stock</label>
-		                            <input type="number" class="form-control" id="stock" name="stock" required>
-		                        </div>
-		                        <div class="form-group">
-								    <label for="imagen" class="form-label">Imagen URL</label>
-								    <input type="text" class="form-control" id="imagen" name="imagen">
-								</div>
-		                        
+	                        <div class="modal-body">
+	                            <div class="form-group">
+	                                <label for="nombre" class="form-label">Nombre</label>
+	                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="precio" class="form-label">Precio</label>
+	                                <input type="number" class="form-control" id="precio" name="precio" required>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="stock" class="form-label">Stock</label>
+	                                <input type="number" class="form-control" id="stock" name="stock" required>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="imagen" class="form-label">Imagen URL</label>
+	                                <input type="text" class="form-control" id="imagen" name="imagen">
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="categoria">Categoría</label>
+	                                <select class="form-select" id="categoria" name="id_categoria" required>
+	                                    <option value=""> </option>
+	                                    <% 
+	                                        for (Categoria categoria : categorias) {
+	                                    %>
+	                                    <option value="<%= categoria.getIdCategoria() %>"><%= categoria.getNombre() %></option>
+	                                    <% 
+	                                        }
+	                                    %>
+	                                </select>
+	                            </div>
 	                        </div>
-   			                <div class="modal-footer">
-			                    <button type="submit" class="btn btn-success">Guardar</button>
-			                </div>
-
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+	                            <button type="submit" class="btn btn-primary">Agregar</button>
+	                        </div>
 	                    </form>
-		            </div>
-		        </div>
-		    </div>
+	                </div>
+	            </div>
+	        </div>
 		    
 			<!-- Modal para editar producto -->
-			<div class="modal fade" id="editarProductoModal" tabindex="-1" role="dialog" aria-labelledby="editarProductoModalLabel" aria-hidden="true">
-			    <div class="modal-dialog" role="document">
-			        <div class="modal-content">
-			            <div class="modal-header">
-			                <h5 class="modal-title" id="editarProductoModalLabel">Editar Producto</h5>
-			                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-			            </div>
-			            <form action="ProductoServlet" method="POST">
-			                <div class="modal-body">
-			                    <input type="hidden" id="id" name="id">
-			
-			                    <div class="form-group">
-			                        <label for="nombre">Nombre del Producto</label>
-			                        <input type="text" class="form-control" id="nombre" name="nombre" required>
-			                    </div>
-			
-			                    <div class="form-group">
-			                        <label for="precio">Precio</label>
-			                        <input type="number" class="form-control" id="precio" name="precio" required>
-			                    </div>
-			
-			                    <div class="form-group">
-			                        <label for="stock">Stock</label>
-			                        <input type="number" class="form-control" id="stock" name="stock" required>
-			                    </div>
-			                    <div class="form-group">
-								    <label for="imagen" class="form-label">Imagen URL</label>
-								    <input type="text" class="form-control" id="imagen" name="imagen">
-								</div>
-			                </div>
-			                <div class="modal-footer">
-			                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-			                    <button type="submit" name="action" value="actualizar" class="btn btn-primary">Guardar Cambios</button>
-			                </div>
-			            </form>
-			        </div>
-			    </div>
-			</div>
+	        <div class="modal fade" id="editarProductoModal" tabindex="-1" aria-labelledby="editarProductoModalLabel" aria-hidden="true">
+	            <div class="modal-dialog">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+	                        <h5 class="modal-title" id="editarProductoModalLabel">Editar Producto</h5>
+	                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                    </div>
+						<form action="ProductoServlet?action=editar" method="POST">
+						    <div class="modal-body">
+						        <input type="hidden" id="idProducto" name="id">
+						        <div class="form-group">
+						            <label for="nombreProducto" class="form-label">Nombre</label>
+						            <input type="text" class="form-control" id="nombreProducto" name="nombre" required>
+						        </div>
+						        <div class="form-group">
+						            <label for="precioProducto" class="form-label">Precio</label>
+						            <input type="number" class="form-control" id="precioProducto" name="precio" required>
+						        </div>
+						        <div class="form-group">
+						            <label for="stockProducto" class="form-label">Stock</label>
+						            <input type="number" class="form-control" id="stockProducto" name="stock" required>
+						        </div>
+						        <div class="form-group">
+						            <label for="imagenProducto" class="form-label">Imagen URL</label>
+						            <input type="text" class="form-control" id="imagenProducto" name="imagen">
+						        </div>
+	                            <div class="form-group">
+	                                <label for="categoriaEditar">Categoría</label>
+	                                <select class="form-select" id="categoriaEditar" name="id_categoria" required>
+	                                    <option value=""> </option>
+	                                    <% 
+	                                        for (Categoria categoria : categorias) {
+	                                    %>
+	                                    <option value="<%= categoria.getIdCategoria() %>"><%= categoria.getNombre() %></option>
+	                                    <% 
+	                                        }
+	                                    %>
+	                                </select>
+	                            </div>
+						    </div>
+						    <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+						        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+						    </div>
+						</form>
+
+	                </div>
+	            </div>
 
 			
 			
@@ -291,27 +322,25 @@
 	</script>
 	
 	<script>
-	    let editarProductoModal = document.getElementById('editarProductoModal');
-	    editarProductoModal.addEventListener('show.bs.modal', function(event) {
-	        let button = event.relatedTarget;
-	        let id = button.getAttribute('data-bs-id');
-	        let nombre = button.getAttribute('data-bs-nombre');
-	        let precio = button.getAttribute('data-bs-precio');
-	        let stock = button.getAttribute('data-bs-stock');
-	        let imagen = button.getAttribute('data-bs-imagen');
+		let editarProductoModal = document.getElementById('editarProductoModal');
+		editarProductoModal.addEventListener('show.bs.modal', function(event) {
+		    let button = event.relatedTarget;
 	
-	        let modalInputId = editarProductoModal.querySelector('#id');
-	        let modalInputNombre = editarProductoModal.querySelector('#nombre');
-	        let modalInputPrecio = editarProductoModal.querySelector('#precio');
-	        let modalInputStock = editarProductoModal.querySelector('#stock');
-	        let modalInputImagen = editarProductoModal.querySelector('#imagen');
+		    let id = button.getAttribute('data-bs-id');
+		    let nombre = button.getAttribute('data-bs-nombre');
+		    let precio = button.getAttribute('data-bs-precio');
+		    let stock = button.getAttribute('data-bs-stock');
+		    let imagen = button.getAttribute('data-bs-imagen');
+		    let categoriaId = button.getAttribute('data-bs-id-categoria');
 	
-	        modalInputId.value = id;
-	        modalInputNombre.value = nombre;
-	        modalInputPrecio.value = precio;
-	        modalInputStock.value = stock;
-	        modalInputImagen.value = imagen;
-	    });
+		    editarProductoModal.querySelector('#idProducto').value = id;
+		    editarProductoModal.querySelector('#nombreProducto').value = nombre;
+		    editarProductoModal.querySelector('#precioProducto').value = precio;
+		    editarProductoModal.querySelector('#stockProducto').value = stock;
+		    editarProductoModal.querySelector('#imagenProducto').value = imagen;
+		    editarProductoModal.querySelector('#categoriaEditar').value = categoriaId;
+		});
+
 	</script>
 
 </body>

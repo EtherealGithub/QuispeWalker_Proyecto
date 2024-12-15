@@ -1,34 +1,37 @@
-package entidades;
+package entidades.Productos;
 
 public class Producto {
-    private String id;
+    private Integer id;
     private String nombre;
-    private String precio;
-    private String stock;
+    private Double precio;
+    private Integer stock;
     private String imagen;
-    
+    private Categoria categoria;
+
     // Constructor
-    public Producto(String id, String nombre, String precio, String stock, String imagen) {
+    public Producto(Integer id, String nombre, Double precio, Integer stock, String imagen, Categoria categoria) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
         this.imagen = imagen;
+        this.categoria = categoria;
     }
     
-    public Producto(String nombre, String precio, String stock, String imagen) {
+    public Producto(String nombre, Double precio, Integer stock, String imagen, Categoria categoria) {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
         this.imagen = imagen;
+        this.categoria = categoria;
     }
 
     // Getters y Setters
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,22 +43,22 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public String getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
-    public String getStock() {
+    public Integer getStock() {
         return stock;
     }
 
-    public void setStock(String stock) {
+    public void setStock(Integer stock) {
         this.stock = stock;
     }
-    
+
     public String getImagen() {
         return imagen;
     }
@@ -63,5 +66,14 @@ public class Producto {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 }
+
 
