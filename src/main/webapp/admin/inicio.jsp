@@ -4,45 +4,75 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
-<!-- Bootstrap CSS -->
+<title>Admin Sidebar</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+    .sidebar {
+        background-color: #002855;
+        color: white;
+        min-height: 100vh;
+        width: 250px;
+        position: fixed;
+    }
+
+    .sidebar .nav-link {
+        color: white;
+        font-weight: 500;
+        padding: 10px;
+    }
+
+    .sidebar .nav-link:hover {
+        background-color: #003366;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .sidebar .nav-link.active {
+        background-color: #004080;
+        border-radius: 5px;
+    }
+
+    .content {
+        margin-left: 250px; 
+        padding: 20px;
+    }
+</style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg" style="background-color: #002855;">
-    <div class="container-fluid">
-        <a class="navbar-brand text-white" href="#">Admin</a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-            
-                <li class="nav-item">
-                    <a class="nav-link text-white active" aria-current="page" href="inicio.jsp">Inicio</a>
-                </li>
+<div class="d-flex">
+    <nav class="sidebar d-flex flex-column p-3">
+        <h4 class="text-center mb-4">Admin</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item mb-2">
+                <a class="nav-link active" href="inicio.jsp">
+                    <i class="bi bi-house-door-fill"></i> Inicio
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link" href="categorias/CategoriaHome.jsp">
+                    <i class="bi bi-people-fill"></i> Categorias
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link" href="../ProductoServlet?action=mostrar">
+                    <i class="bi bi-box-seam"></i> Productos
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="administradores/AdministradorHome.jsp">
+                    <i class="bi bi-person-fill"></i> Administradores
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="usuario/UsuarioHome.jsp">Usuarios</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="../ProductoServlet?action=mostrar">Productos</a>
-                </li>
-   
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="administradores/AdministradorHome.jsp">Administradores</a>
-                </li>
-            </ul>
-        </div>
+    <div class="content">
+        <h1 class="text-center">Bienvenido a la Vista de Administrador</h1>
+        <p>Este es el contenido principal de tu aplicación.</p>
     </div>
-</nav>
-
-<div class="container mt-4">
-  <h1 class="text-center">Bienvenido a la Vista de Administrador</h1>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

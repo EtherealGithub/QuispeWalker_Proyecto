@@ -9,10 +9,9 @@ public class Administrador {
     private String correo;
     private LocalDateTime fechaCreacion;
 
-    // Constructor vacío
     public Administrador() {}
 
-    // Constructor con parámetros
+
     public Administrador(String dni, String nombre, String Apellido, String correo, LocalDateTime fechaCreacion) {
         this.dni = dni;
         this.nombre = nombre;
@@ -21,7 +20,6 @@ public class Administrador {
         this.fechaCreacion = fechaCreacion;
     }
 
-    // Getters y Setters
     public String getDni() {
         return dni;
     }
@@ -60,17 +58,5 @@ public class Administrador {
 
     public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
-    }
-
-    // Método toString para facilitar la impresión de objetos
-    @Override
-    public String toString() {
-        return "Administrador{" +
-                "dni='" + dni + '\'' +
-                ", nombres='" + nombre + '\'' +
-                ", apellidos='" + apellido + '\'' +
-                ", correo='" + correo + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                '}';
     }
 }
