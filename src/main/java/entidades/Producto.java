@@ -1,4 +1,4 @@
-package entidades.Productos;
+package entidades;
 
 public class Producto {
     private Integer id;

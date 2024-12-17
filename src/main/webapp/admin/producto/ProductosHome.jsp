@@ -1,5 +1,5 @@
-<%@page import="entidades.Productos.Categoria"%>
-<%@ page import="entidades.Productos.Producto"%>
+<%@page import="entidades.Categoria"%>
+<%@ page import="entidades.Producto"%>
 <%@ page import="java.util.List"%>
 
 <!DOCTYPE html>

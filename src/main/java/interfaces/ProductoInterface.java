@@ -2,8 +2,8 @@ package interfaces;
 
 import java.util.List;
 
-import entidades.Productos.Categoria;
-import entidades.Productos.Producto;
+import entidades.Categoria;
+import entidades.Producto;
 
 public interface ProductoInterface {
     boolean agregarProducto(Producto producto);

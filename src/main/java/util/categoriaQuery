@@ -1,0 +1,10 @@
+CREATE TABLE categoria(
+idCategoria INT auto_increment primary key not null,
+nombre varchar(20) not null
+);
+
+insert into categoria (nombre) value("Pisco");
+insert into categoria (nombre) value("Vino");
+insert into categoria (nombre) value("Whyski");
+
+

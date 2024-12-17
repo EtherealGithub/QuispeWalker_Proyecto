@@ -1,9 +1,13 @@
-package entidades.Productos;
+package entidades;
 
 public class Categoria {
     private Integer idCategoria;
     private String nombre;
-
+    
+    public Categoria() {
+    	
+    }
+    
     // Constructor
     public Categoria(Integer idCategoria, String nombre) {
         this.idCategoria = idCategoria;

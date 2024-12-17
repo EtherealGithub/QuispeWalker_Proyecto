@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entidades.Productos.Categoria;
-import entidades.Productos.Producto;
+import entidades.Categoria;
+import entidades.Producto;
 import modelos.ProductoModelo;
 
 /**
