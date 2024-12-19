@@ -62,7 +62,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="administradores/AdministradorHome.jsp">
+                <a class="nav-link" href="administradores/GestionAdmin.jsp">
                     <i class="bi bi-person-fill"></i> Administradores
                 </a>
             </li>

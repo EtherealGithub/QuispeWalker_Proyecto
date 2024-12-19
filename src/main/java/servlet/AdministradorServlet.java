@@ -1,176 +1,116 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelos.AdministradorModelo;
-import modelos.AdministradorModeloImpl;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import dao.DAOFactory;
 import entidades.Administrador;
+import interfaces.AdministradorInterface;
 
 @WebServlet("/AdministradorServlet")
 public class AdministradorServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        JsonObject data = new Gson().fromJson(request.getReader(), JsonObject.class);
+        String type = data.get("type").getAsString();
 
-        if (action == null || action.isEmpty()) {
-            mostrarAdministradores(request, response); // Acción por defecto
+        DAOFactory daoFactory = DAOFactory.getDaoFactory(DAOFactory.MYSQL);
+        AdministradorInterface adminDao = daoFactory.getAdministrador();
+
+        switch (type) {
+            case "list":
+                listAdministrators(response, adminDao);
+                break;
+            case "register":
+                registerAdministrator(data, response, adminDao);
+                break;
+            case "update":
+                updateAdministrator(data, response, adminDao);
+                break;
+            case "delete":
+                deleteAdministrator(data, response, adminDao);
+                break;
+            case "get":
+                getAdministrator(data, response, adminDao);
+                break;
+        }
+    }
+
+    private void listAdministrators(HttpServletResponse response, AdministradorInterface adminDao) throws IOException {
+        List<Administrador> list = adminDao.listAdministrators();
+        PrintWriter out = response.getWriter();
+        out.print(new Gson().toJson(list));
+        out.flush();
+    }
+
+    private void registerAdministrator(JsonObject data, HttpServletResponse response, AdministradorInterface adminDao) throws IOException {
+        Administrador admin = new Administrador();
+        admin.setNombre(data.get("nombre").getAsString());
+        admin.setApellido(data.get("apellido").getAsString());
+        admin.setCorreo(data.get("correo").getAsString());
+        admin.setContrasena(data.get("contrasena").getAsString());
+        admin.setUrl(data.get("url").getAsString());
+        admin.setIdRol(data.get("idRol").getAsInt());
+
+        Administrador registeredAdmin = adminDao.registerAdministrator(admin);
+        PrintWriter out = response.getWriter();
+        if (registeredAdmin != null) {
+            out.print("Registro exitoso");
         } else {
-            switch (action) {
-                case "mostrar":
-                case "listar":
-                    mostrarAdministradores(request, response);
-                    break;
-                case "filterByName":
-                    filtrarPorNombre(request, response);
-                    break;
-                case "eliminar":
-                    eliminarAdministrador(request, response);
-                    break;
-                case "guardar":
-                    mostrarFormularioGuardar(request, response);
-                    break;
-                case "modificar":
-                    mostrarFormularioModificar(request, response);
-                    break;
-                default:
-                    mostrarAdministradores(request, response);
-                    break;
-            }
+            out.print("Error en el registro");
         }
+        out.flush();
     }
 
-    private void mostrarAdministradores(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        AdministradorModelo model = new AdministradorModeloImpl();
-        List<Administrador> administradores = model.listAdministradores();
-        request.setAttribute("listAdministradores", administradores);
-        request.getRequestDispatcher("/admin/administradores/mostrarAdministradores.jsp").forward(request, response);
-    }
+    private void updateAdministrator(JsonObject data, HttpServletResponse response, AdministradorInterface adminDao) throws IOException {
+        Administrador admin = new Administrador();
+        admin.setIdUsuario(data.get("idUsuario").getAsInt());
+        admin.setNombre(data.get("nombre").getAsString());
+        admin.setApellido(data.get("apellido").getAsString());
+        admin.setCorreo(data.get("correo").getAsString());
+        admin.setContrasena(data.get("contrasena").getAsString());
+        admin.setUrl(data.get("url").getAsString());
+        admin.setIdRol(data.get("idRol").getAsInt());
 
-    private void filtrarPorNombre(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nombres = request.getParameter("nombres");
-        AdministradorModelo model = new AdministradorModeloImpl();
-        List<Administrador> administradores = model.searchAdministradores(nombres);
-        request.setAttribute("listAdministradores", administradores);
-        request.getRequestDispatcher("/admin/administradores/mostrarAdministradores.jsp").forward(request, response);
-    }
-
-    private void eliminarAdministrador(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String dni = request.getParameter("dni");
-        AdministradorModelo model = new AdministradorModeloImpl();
-
-        if (dni != null && !dni.isEmpty()) {
-            model.deleteAdministrador(dni);
-        }
-
-        // Cargar la lista de administradores actualizada
-        List<Administrador> administradores = model.listAdministradores();
-        request.setAttribute("listAdministradores", administradores);
-        request.getRequestDispatcher("/admin/administradores/EliminarAdministrador.jsp").forward(request, response);
-    }
-
-   
-    protected void mostrarFormularioGuardar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        AdministradorModelo model = new AdministradorModeloImpl();
-        List<Administrador> administradores = model.listAdministradores();
-        request.setAttribute("listAdministradores", administradores);
-        request.getRequestDispatcher("/admin/administradores/GuardarAdministrador.jsp").forward(request, response);
-    }
-
-    private void mostrarFormularioModificar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String dni = request.getParameter("dni");
-        if (dni != null && !dni.isEmpty()) {
-            AdministradorModelo model = new AdministradorModeloImpl();
-            Administrador admin = model.getAdministradorByDni(dni);
-            request.setAttribute("adminSeleccionado", admin);
-            List<Administrador> administradores = model.listAdministradores();
-            request.setAttribute("listAdministradores", administradores);
-            request.getRequestDispatcher("/admin/administradores/ModificarAdministrador.jsp").forward(request, response);
+        Administrador updatedAdmin = adminDao.updateAdministrator(admin);
+        PrintWriter out = response.getWriter();
+        if (updatedAdmin != null) {
+            out.print("Actualización exitosa");
         } else {
-            response.sendRedirect("/admin/administradores/ModificarAdministrador.jsp");
+            out.print("Error en la actualización");
         }
+        out.flush();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
+    private void deleteAdministrator(JsonObject data, HttpServletResponse response, AdministradorInterface adminDao) throws IOException {
+        int idUsuario = data.get("idUsuario").getAsInt();
 
-        if ("guardar".equals(action)) {
-            guardarAdministrador(request, response);
-        } else if ("modificar".equals(action)) {
-            modificarAdministrador(request, response);
+        Administrador deletedAdmin = adminDao.deleteAdministrator(idUsuario);
+        PrintWriter out = response.getWriter();
+        if (deletedAdmin != null) {
+            out.print("Eliminación exitosa");
         } else {
-            mostrarAdministradores(request, response);
+            out.print("Error en la eliminación");
         }
+        out.flush();
     }
 
-    private void guardarAdministrador(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String dni = request.getParameter("dni");
-            String nombres = request.getParameter("nombres");
-            String apellidos = request.getParameter("apellidos");
-            String correo = request.getParameter("correo");
-
-            if (dni == null || nombres == null || apellidos == null || correo == null ||
-                nombres.isEmpty() || apellidos.isEmpty() || correo.isEmpty()) {
-                request.setAttribute("error", "Todos los campos son obligatorios.");
-                request.getRequestDispatcher("/admin/administradores/GuardarAdministrador.jsp").forward(request, response);
-                return;
-            }
-
-            Administrador admin = new Administrador();
-            admin.setDni(dni);
-            admin.setNombre(nombres);
-            admin.setApellido(apellidos);
-            admin.setCorreo(correo);
-
-            AdministradorModelo model = new AdministradorModeloImpl();
-            Administrador existente = model.getAdministradorByDni(dni);
-
-            if (existente != null) {
-                request.setAttribute("error", "El administrador con el DNI proporcionado ya existe.");
-                request.getRequestDispatcher("/admin/administradores/GuardarAdministrador.jsp").forward(request, response);
-            } else {
-                model.createAdministrador(admin);
-                List<Administrador> administradores = model.listAdministradores();
-                request.setAttribute("listAdministradores", administradores);
-                request.getRequestDispatcher("/admin/administradores/GuardarAdministrador.jsp").forward(request, response);
-            }
-        } catch (Exception e) {
-            request.setAttribute("error", "Ocurrió un error al guardar el administrador.");
-            request.getRequestDispatcher("/admin/administradores/GuardarAdministrador.jsp").forward(request, response);
-        }
-    }
-
-
-    private void modificarAdministrador(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            String dni = request.getParameter("dni");
-            String nombres = request.getParameter("nombres");
-            String apellidos = request.getParameter("apellidos");
-            String correo = request.getParameter("correo");
-
-            Administrador admin = new Administrador();
-            admin.setDni(dni);
-            admin.setNombre(nombres);
-            admin.setApellido(apellidos);
-            admin.setCorreo(correo);
-
-            AdministradorModelo model = new AdministradorModeloImpl();
-            model.updateAdministrador(admin);
-            
-            List<Administrador> administradores = model.listAdministradores();
-            request.setAttribute("listAdministradores", administradores);
-            request.setAttribute("adminSeleccionado", admin);
-            
-            request.getRequestDispatcher("/admin/administradores/ModificarAdministrador.jsp").forward(request, response);
-        } catch (Exception e) {
-            request.setAttribute("error", "Ocurrió un error al modificar el administrador.");
-            request.getRequestDispatcher("/admin/administradores/ModificarAdministrador.jsp").forward(request, response);
-        }
+    private void getAdministrator(JsonObject data, HttpServletResponse response, AdministradorInterface adminDao) throws IOException {
+        int idUsuario = data.get("idUsuario").getAsInt();
+        Administrador admin = adminDao.getAdministratorById(idUsuario);
+        PrintWriter out = response.getWriter();
+        out.print(new Gson().toJson(admin));
+        out.flush();
     }
 }

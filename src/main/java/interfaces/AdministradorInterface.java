@@ -4,16 +4,9 @@ import java.util.List;
 import entidades.Administrador;
 
 public interface AdministradorInterface {
-    public int createAdministrador(Administrador administrador);
-
-    public List<Administrador> listAdministradores();
-
-    public List<Administrador> filterAdministradores(String dni);
-
-    public int deleteAdministrador(String dni);
-
-  public int updateAdministrador(Administrador administrador);
-
-  	List<Administrador> searchAdministradores(String nombres);
-    
+    List<Administrador> listAdministrators();
+    Administrador registerAdministrator(Administrador admin);
+    Administrador updateAdministrator(Administrador admin);
+    Administrador deleteAdministrator(int idUsuario);
+    Administrador getAdministratorById(int idUsuario);
 }

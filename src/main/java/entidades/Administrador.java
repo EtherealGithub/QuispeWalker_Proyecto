@@ -1,31 +1,24 @@
 package entidades;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class Administrador {
-    private String dni;
+    private int idUsuario;
     private String nombre;
     private String apellido;
     private String correo;
-    private LocalDateTime fechaCreacion;
+    private String contrasena;
+    private String url;
+    private Timestamp fechaRegistro;
+    private int idRol;
+    private String rolNombre; 
 
-    public Administrador() {}
-
-
-    public Administrador(String dni, String nombre, String Apellido, String correo, LocalDateTime fechaCreacion) {
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellido = Apellido;
-        this.correo = correo;
-        this.fechaCreacion = fechaCreacion;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNombre() {
@@ -40,8 +33,8 @@ public class Administrador {
         return apellido;
     }
 
-    public void setApellido(String Apellido) {
-        this.apellido = Apellido;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getCorreo() {
@@ -52,11 +45,43 @@ public class Administrador {
         this.correo = correo;
     }
 
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Timestamp getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Timestamp fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public int getIdRol() {
+        return idRol;
+    }
+
+    public void setIdRol(int idRol) {
+        this.idRol = idRol;
+    }
+
+    public String getRolNombre() {
+        return rolNombre;
+    }
+
+    public void setRolNombre(String rolNombre) {
+        this.rolNombre = rolNombre;
     }
 }

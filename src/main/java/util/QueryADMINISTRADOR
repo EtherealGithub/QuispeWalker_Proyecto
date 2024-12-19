@@ -1,22 +1,160 @@
 CREATE DATABASE dbproyectojq;
 USE dbproyectojq;
 
-CREATE TABLE Administradores (
-    dni CHAR(8) NOT NULL PRIMARY KEY, 
-    nombres VARCHAR(100) NOT NULL,  
-    apellidos VARCHAR(100) NOT NULL, 
-    correo VARCHAR(100) NOT NULL,  
-    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
+
+
+
+
+
+
+
+
+CREATE TABLE rol (
+    idRol INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL UNIQUE
 );
 
-INSERT INTO Administradores (dni, nombres, apellidos, correo)
-VALUES
-('10101010', 'Carlos', 'Perez', 'carlos.perez@gmail.com'),
-('20202020', 'Lucia', 'Gomez', 'lucia.gomez@yahoo.com'),
-('30303030', 'Javier', 'Lopez', 'javier.lopez@hotmail.com'),
-('40404040', 'Ana', 'Martinez', 'ana.martinez@gmail.com'),
-('50505050', 'Diego', 'Fernandez', 'diego.fernandez@outlook.com'),
-('60606060', 'Claudia', 'Vega', 'claudia.vega@gmail.com'),
-('70707070', 'Fernando', 'Castro', 'fernando.castro@gmail.com');
+-- Insertamos los roles
+INSERT INTO rol (nombre) VALUES ('ADMIN'), ('OWNER');
+SELECT * FROM rol;
+CREATE TABLE administrador (
+    idUsuario INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(200) NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    contrasena VARCHAR(100) NOT NULL,
+    url VARCHAR(600) NOT NULL,
+    fechaRegistro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    idRol INT NOT NULL,
+    FOREIGN KEY (idRol) REFERENCES rol(idRol)
+);
+-- Insertamos más administradores
+INSERT INTO administrador (nombre, apellido, correo, contrasena, url, idRol) 
+VALUES 
+('Carlos', 'Lopez', 'carlos.lopez@example.com', 'contrasena789', 'http://example.com', 1),  -- Rol 'ADMIN'
+('Ana', 'Martinez', 'ana.martinez@example.com', 'contrasena101', 'http://example.com', 2),  -- Rol 'OWNER'
+('Luis', 'Fernandez', 'luis.fernandez@example.com', 'contrasena202', 'http://example.com', 1), -- Rol 'ADMIN'
+('Laura', 'Diaz', 'laura.diaz@example.com', 'contrasena303', 'http://example.com', 2),      -- Rol 'OWNER'
+('Pedro', 'Sanchez', 'pedro.sanchez@example.com', 'contrasena404', 'http://example.com', 1); -- Rol 'ADMIN'
 
-SELECT * FROM administradores;
+SELECT * FROM administrador;
+DELIMITER $$
+
+CREATE PROCEDURE sp_listAdministrators()
+BEGIN
+    SELECT a.idUsuario, a.nombre, a.apellido, a.correo, a.url, a.fechaRegistro, r.nombre AS rolNombre
+    FROM administrador a
+    JOIN rol r ON a.idRol = r.idRol;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+DELIMITER $$
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_getAdministratorById(
+    IN p_idUsuario INT
+)
+BEGIN
+    SELECT a.idUsuario, a.nombre, a.apellido, a.correo, a.contrasena, a.url, a.fechaRegistro, a.idRol, r.nombre AS rolNombre
+    FROM administrador a
+    JOIN rol r ON a.idRol = r.idRol
+    WHERE a.idUsuario = p_idUsuario;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_listAdministratorsByRole(
+    IN p_rolNombre VARCHAR(50)
+)
+BEGIN
+    SELECT a.idUsuario, a.nombre, a.apellido, a.correo, a.url, a.fechaRegistro, r.nombre AS rolNombre
+    FROM administrador a
+    JOIN rol r ON a.idRol = r.idRol
+    WHERE r.nombre = p_rolNombre;
+END $$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_registerAdministrator(
+    IN p_nombre VARCHAR(100),
+    IN p_apellido VARCHAR(200),
+    IN p_correo VARCHAR(100),
+    IN p_contrasena VARCHAR(100),
+    IN p_url VARCHAR(600),
+    IN p_idRol INT
+)
+BEGIN
+    INSERT INTO administrador (nombre, apellido, correo, contrasena, url, idRol)
+    VALUES (p_nombre, p_apellido, p_correo, p_contrasena, p_url, p_idRol);
+END $$
+
+DELIMITER ;
+DELIMITER $$
+
+CREATE PROCEDURE sp_updateAdministrator(
+    IN p_idUsuario INT,
+    IN p_nombre VARCHAR(100),
+    IN p_apellido VARCHAR(200),
+    IN p_correo VARCHAR(100),
+    IN p_contrasena VARCHAR(100),
+    IN p_url VARCHAR(600),
+    IN p_idRol INT
+)
+BEGIN
+    UPDATE administrador
+    SET nombre = p_nombre, apellido = p_apellido, correo = p_correo, contrasena = p_contrasena, url = p_url, idRol = p_idRol
+    WHERE idUsuario = p_idUsuario;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_deleteAdministrator(
+    IN p_idUsuario INT
+)
+BEGIN
+    DELETE FROM administrador WHERE idUsuario = p_idUsuario;
+END $$
+
+DELIMITER ;
+
+
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_listRoles()
+BEGIN
+    SELECT idRol, nombre FROM rol;
+END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_getRoleById(
+    IN p_idRol INT
+)
+BEGIN
+    SELECT idRol, nombre FROM rol WHERE idRol = p_idRol;
+END $$
+
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
