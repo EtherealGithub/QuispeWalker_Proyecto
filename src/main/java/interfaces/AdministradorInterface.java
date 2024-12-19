@@ -9,4 +9,5 @@ public interface AdministradorInterface {
     Administrador updateAdministrator(Administrador admin);
     Administrador deleteAdministrator(int idUsuario);
     Administrador getAdministratorById(int idUsuario);
+    Administrador authenticate(String correo, String contrasena);
 }

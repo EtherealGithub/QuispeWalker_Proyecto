@@ -11,6 +11,49 @@ import util.MySqlConexion;
 
 public class AdministradorModelo implements AdministradorInterface {
 
+	    public Administrador authenticate(String correo, String contrasena) {
+	        Administrador admin = null;
+	        Connection cn = null;
+	        PreparedStatement psm = null;
+	        ResultSet rs = null;
+
+	        try {
+	            cn = MySqlConexion.getConexion();
+	            String sql = "SELECT * FROM administrador WHERE correo = ? AND contrasena = ?";
+	            psm = cn.prepareStatement(sql);
+	            psm.setString(1, correo);
+	            psm.setString(2, contrasena);
+	            rs = psm.executeQuery();
+
+	            if (rs.next()) {
+	                admin = new Administrador();
+	                admin.setIdUsuario(rs.getInt("idUsuario"));
+	                admin.setNombre(rs.getString("nombre"));
+	                admin.setApellido(rs.getString("apellido"));
+	                admin.setCorreo(rs.getString("correo"));
+	                admin.setContrasena(rs.getString("contrasena"));
+	                admin.setUrl(rs.getString("url"));
+	                admin.setFechaRegistro(rs.getTimestamp("fechaRegistro"));
+	                admin.setIdRol(rs.getInt("idRol"));
+	                
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	                if (rs != null) rs.close();
+	                if (psm != null) psm.close();
+	                if (cn != null) cn.close();
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+
+	        return admin;
+	    }
+	
+	
+	
     @Override
     public List<Administrador> listAdministrators() {
         List<Administrador> admins = new ArrayList<>();
