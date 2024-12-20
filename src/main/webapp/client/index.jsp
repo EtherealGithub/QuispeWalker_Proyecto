@@ -14,6 +14,7 @@
             <img src="imgs/LogoQuispeWalker.png" alt="">
             <span>QUISPE WALKER</span>
         </div>
+        
         <nav class="menu">
             <a href="#">Inicio</a>
             <a href="../ProductoClienteServlet?action=catalogoPorCategoria&idCategoria=1">Piscos</a>
