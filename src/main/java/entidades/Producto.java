@@ -8,7 +8,7 @@ public class Producto {
     private String imagen;
     private Categoria categoria;
 
-    // Constructor
+    // Constructores
     public Producto(Integer id, String nombre, Double precio, Integer stock, String imagen, Categoria categoria) {
         this.id = id;
         this.nombre = nombre;
@@ -28,6 +28,7 @@ public class Producto {
     
     public Producto()
     {    	
+    	
     }
 
     // Getters y Setters

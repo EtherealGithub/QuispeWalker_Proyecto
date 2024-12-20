@@ -119,7 +119,6 @@ public class ProductoServlet extends HttpServlet {
     }
     
     private Producto consturirProductoDesdePeticion(HttpServletRequest request) {
-    	String test = request.getParameter("agregarCategoria"); 
         Categoria categoria = productoadminDAO.obtenerCategorias().stream()
                 .filter(cat -> cat.getIdCategoria() == Integer.parseInt(request.getParameter("agregarCategoria")))
                 .findFirst()
