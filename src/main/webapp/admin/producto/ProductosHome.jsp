@@ -86,7 +86,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin/administradores/AdministradorHome.jsp">
+                <a class="nav-link" href="admin/administradores/GestionAdmin.jsp">
                     <i class="bi bi-person-fill"></i> Administradores
                 </a>
             </li>
@@ -152,7 +152,6 @@
             </main>
                        
 	        
-		    <!-- Modal para agregar productos -->
 	        <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-hidden="true" role="dialog">
 	            <div class="modal-dialog">
 	                <div class="modal-content">

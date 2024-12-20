@@ -9,29 +9,6 @@ public class Producto {
     private Integer idCategoria;
     private String nombreCategoria;
 
-    // Constructores
-    public Producto(Integer id, String nombre, Double precio, Integer stock, String imagen, Integer idCategoria) {
-        this.id = id;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
-        this.imagen = imagen;
-        this.idCategoria = idCategoria;
-    }
-
-    public Producto(String nombre, Double precio, Integer stock, String imagen, Integer idCategoria) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
-        this.imagen = imagen;
-        this.idCategoria = idCategoria;
-    }
-    
-    public Producto()
-    {    	
-    	
-    }
-
     // Getters y Setters
     public Integer getId() {
         return id;
