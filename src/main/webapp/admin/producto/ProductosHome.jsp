@@ -168,11 +168,11 @@
 	                            </div>
 	                            <div class="form-group">
 	                                <label for="agregarPrecio" class="form-label">Precio</label>
-	                                <input id="agregarPrecio" type="number" class="form-control" required>
+	                                <input id="agregarPrecio" type="number" class="form-control" value="0" required>
 	                            </div>
 	                            <div class="form-group">
 	                                <label for="agregarStock" class="form-label">Stock</label>
-	                                <input id="agregarStock" type="number" class="form-control" required >
+	                                <input id="agregarStock" type="number" class="form-control" value="0" required >
 	                            </div>
 	                            <div class="form-group">
 	                                <label for="agregarImagen" class="form-label">Imagen URL</label>
@@ -249,13 +249,22 @@
 	                        <h5 class="modal-title" id="modalTitleId">Alerta</h5>
 	                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                    </div>
-	                    <div class="modal-body">¿Desea eliminar este producto?</div>
-	                    <p><strong class="modal-body" id="borrarNombreLabel"></strong></p>
-	                    <div class="modal-footer">
+	                    <div class="modal-body">
 	                        <form role="form">
 	                            <input type="hidden" name="id" id="borrarId">
-	                            <button type="submit" class="btn btn-danger" onclick="borrarProducto()">Eliminar</button>
+	       		            	<div class="form-group">
+				                    <div class="form-label">¿Desea eliminar este producto?</div>
+				                    <p><strong class="form-label" id="borrarNombreLabel"></strong></p>
+			                    </div>
+			                    <div class="form-group">
+	               				    <label for="borrarNombreConfirmacion" class="form-label">Confirmar borrado:</label>
+				                    <input type="text" id="borrarNombreConfirmacion" class="form-control" placeholder="Ingresar nombre del producto." required>
+			                    </div>
+	
 	                        </form>
+						</div>
+	                    <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" onclick="borrarProducto()">Eliminar</button>
 	                    </div>
 	                </div>
 	            </div>
@@ -292,6 +301,12 @@
 	    })();
 		
 		function openDialogAddProducts(){
+		    document.getElementById('agregarNombre').value = ''; 
+		    document.getElementById('agregarPrecio').value = '0'; 
+		    document.getElementById('agregarStock').value = '0'; 
+		    document.getElementById('agregarImagen').value = ''; 
+		    document.getElementById('agregarCategoria').value = ''; 
+			
 			$('#modalAgregarProducto').modal('show');
 		}
 		
@@ -319,12 +334,41 @@
 		function openDialogClearProducts(id, nombre) {
 		    document.getElementById('borrarId').value = id;
 		    document.getElementById('borrarNombreLabel').textContent = nombre;
+		    document.getElementById('borrarNombreConfirmacion').value = '';
 
 		    $('#modalBorrarProducto').modal('show');
 		}
 			    		
 		function agregarProducto() {
-		    const data = {
+		    
+			const nombre = document.getElementById('agregarNombre').value.trim();
+		    const precio = parseFloat(document.getElementById('agregarPrecio').value);
+		    const stock = parseInt(document.getElementById('agregarStock').value, 10);
+		    const imagen = document.getElementById('agregarImagen').value.trim();
+		    const categoria = document.getElementById('agregarCategoria').value;
+
+		    if (nombre === '' || nombre.length < 5) {
+		        alert('El nombre debe tener al menos 5 caracteres.');
+		        return;
+		    }
+		    if (isNaN(precio) || precio <= 0) {
+		        alert('El precio debe ser un número mayor a 0.');
+		        return;
+		    }
+		    if (isNaN(precio) || precio <= 0) {
+		        alert('El precio debe ser un número mayor a 0.');
+		        return;
+		    }
+		    if (!/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(imagen)) {
+		        alert('La imagen debe ser una URL válida.');
+		        return;
+		    }
+		    if (categoria === '') {
+		        alert('Debe seleccionar una categoría.');
+		        return;
+		    }
+		    
+			const data = {
 		        action: 'agregarService',
 		        requestName: $('#agregarNombre').val(),
 		        requestPrice: $('#agregarPrecio').val(),
@@ -353,7 +397,35 @@
 		}
 		
 		function modificarProducto() {
-		    const data = {
+		    const id = document.getElementById('actualizarId').value;
+		    const nombre = document.getElementById('actualizarNombre').value.trim();
+		    const precio = parseFloat(document.getElementById('actualizarPrecio').value);
+		    const stock = parseInt(document.getElementById('actualizarStock').value, 10);
+		    const imagen = document.getElementById('actualizarImagen').value.trim();
+		    const categoria = document.getElementById('actualizarCategoria').value;
+
+		    if (nombre === '' || nombre.length < 5) {
+		        alert('El nombre debe tener al menos 5 caracteres.');
+		        return;
+		    }
+		    if (isNaN(precio) || precio <= 0) {
+		        alert('El precio debe ser un número mayor a 0.');
+		        return;
+		    }
+		    if (isNaN(stock) || stock < 0) {
+		        alert('El stock debe ser un número mayor o igual a 0.');
+		        return;
+		    }
+		    if (!/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(imagen)) {
+		        alert('La imagen debe ser una URL válida.');
+		        return;
+		    }
+		    if (categoria === '') {
+		        alert('Debe seleccionar una categoría.');
+		        return;
+		    }
+			
+			const data = {
 		        action: 'modificarService',
 		        requestId: $('#actualizarId').val(),
 		        requestName: $('#actualizarNombre').val(),
@@ -384,7 +456,15 @@
 		}		
 		
 		function borrarProducto() {
-		    const data = {
+		    const nombreProducto = document.getElementById('borrarNombreLabel').textContent;
+		    const nombreIngresado = document.getElementById('borrarNombreConfirmacion').value.trim();
+			
+		    if (nombreIngresado !== nombreProducto) {
+		    	alert('El nombre ingresado no coincide con el producto.');
+		        return;
+		    }
+		    
+			const data = {
 		        action: 'borrarService',
 		        requestId: $('#borrarId').val(),
 		    };
