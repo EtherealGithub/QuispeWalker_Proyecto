@@ -2,8 +2,7 @@ package dao;
 
 import interfaces.AdministradorInterface;
 import interfaces.RolInterface;
-import interfaces.CategoriaInterface;
-import interfaces.ProductoInterface;  
+import interfaces.CategoriaInterface;  
 
 public abstract class DAOFactory {
     public static final int MYSQL = 1;
@@ -13,7 +12,6 @@ public abstract class DAOFactory {
     public abstract AdministradorInterface getAdministrador();
     public abstract RolInterface getRol();
     public abstract CategoriaInterface getCategoria();  
-    public abstract ProductoInterface getProductoAdmin();  
     
     public static DAOFactory getDaoFactory(int tipo) {
         switch (tipo) {

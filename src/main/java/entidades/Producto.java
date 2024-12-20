@@ -25,9 +25,6 @@ public class Producto {
         this.imagen = imagen;
         this.categoria = categoria;
     }
-    public Producto()
-    {    	
-    }
 
     // Getters y Setters
     public Integer getId() {

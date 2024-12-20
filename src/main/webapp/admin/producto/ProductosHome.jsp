@@ -1,7 +1,6 @@
 <%@page import="entidades.Categoria"%>
 <%@ page import="entidades.Producto"%>
 <%@ page import="java.util.List"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -99,10 +98,7 @@
                 <div class="container-fluid px-3">
                 	<br>
                     <h3>Productos</h3>
-                    <button class="btn btn-primary" 
-                    		onclick="openDialogAddProducts()">
-                    		Agregar Producto
-                	</button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarProductoModal">Agregar</button>
                     
                     <hr>
 
@@ -209,48 +205,51 @@
 	            </div>
 	        </div>
 	        
-		    <!-- Modal para agregar productos -->
-	        <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-hidden="true" role="dialog">
+		    <!-- Modal para agregar un producto -->
+	        <div class="modal fade" id="agregarProductoModal" tabindex="-1" aria-labelledby="agregarProductoModalLabel" aria-hidden="true">
 	            <div class="modal-dialog">
 	                <div class="modal-content">
 	                    <div class="modal-header">
-	                        <h5 class="modal-title">Agregar Producto</h5>
+	                        <h5 class="modal-title" id="agregarProductoModalLabel">Agregar Producto</h5>
 	                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                    </div>
-                        <div class="modal-body">
-		                    <form role="form">
-		                            <div class="form-group">
-		                                <label for="nombre" class="form-label">Nombre</label>
-		                                <input id="agregarNombre" name="nombre" type="text" class="form-control" required>
-		                            </div>
-		                            <div class="form-group">
-		                                <label for="precio" class="form-label">Precio</label>
-		                                <input id="agregarPrecio" name="precio" type="number" class="form-control" required>
-		                            </div>
-		                            <div class="form-group">
-		                                <label for="stock" class="form-label">Stock</label>
-		                                <input id="agregarStock" name="stock" type="number" class="form-control" required >
-		                            </div>
-		                            <div class="form-group">
-		                                <label for="imagen" class="form-label">Imagen URL</label>
-		                                <input id="agregarImagen" name="imagen" type="text" class="form-control" required>
-		                            </div>
-		                            <div class="form-group">
-		                                <label for="categoria">Categoría</label>
-		                                <select id="agregarCategoria" name="id_categoria" class="form-select" required>
-	                           				
-	                           				<option value="" >Seleccionar categoria</option>
-				                            <c:forEach var="itemCategoria" items="${categorias}">
-				                                <option value="${itemCategoria.idCategoria}">${itemCategoria.nombre}</option>
-				                            </c:forEach>
-				                            
-		                                </select>
-		                            </div>
-		                    </form>
-                        </div>
-	                    <div class="modal-footer">
-	                        <button type="button" class="btn btn-primary submitBtn" onclick="agregarProducto()">Agregar</button>
-	                    </div>
+	                    <form action="ProductoServlet?action=agregar" method="POST">
+	                        <div class="modal-body">
+	                            <div class="form-group">
+	                                <label for="nombre" class="form-label">Nombre</label>
+	                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="precio" class="form-label">Precio</label>
+	                                <input type="number" class="form-control" id="precio" name="precio" required>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="stock" class="form-label">Stock</label>
+	                                <input type="number" class="form-control" id="stock" name="stock" required>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="imagen" class="form-label">Imagen URL</label>
+	                                <input type="text" class="form-control" id="imagen" name="imagen">
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="categoria">Categoría</label>
+	                                <select class="form-select" id="categoria" name="id_categoria" required>
+	                                    <option value=""> </option>
+	                                    <% 
+	                                        for (Categoria categoria : categorias) {
+	                                    %>
+	                                    <option value="<%= categoria.getIdCategoria() %>"><%= categoria.getNombre() %></option>
+	                                    <% 
+	                                        }
+	                                    %>
+	                                </select>
+	                            </div>
+	                        </div>
+	                        <div class="modal-footer">
+	                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+	                            <button type="submit" class="btn btn-primary">Agregar</button>
+	                        </div>
+	                    </form>
 	                </div>
 	            </div>
 	        </div>
@@ -315,38 +314,10 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-latest.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/scripts.js"></script>
 
-	<script type="text/javascript">
+	<script>
 	    // Configuracion de DataTables
-		function openDialogAddProducts(){
-			$('#modalAgregarProducto').modal('show');
-		}
-	    
-		function agregarProducto() {
-			const data = {
-				action: 'agregarService',
-				requestName: $('#agregarNombre').val(),
-				requestPrice: $('#agregarPrecio').val(),
-				requestStock: $('#agregarStock').val(),
-				requestImage: $('#agregarImagen').val(),
-				requestCategory: $('#agregarCategoria').val()
-			};
-		
-			$.ajax({
-				url: 'ProductoServlet',
-				method: 'POST',
-				data: data,
-				success: function () {
-					location.reload();
-				},
-				error: function () {
-					console.error('Error al registrar el producto.');
-				}
-			});
-		}
-		
 	    (function configureDataTables() {
 	        const datatablesSimple = document.getElementById('datatablesSimple');
 	        if (datatablesSimple) {
