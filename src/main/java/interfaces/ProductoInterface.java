@@ -12,6 +12,8 @@ public interface ProductoInterface {
     List<Producto> obtenerProductos();
     Producto obtenerProductoPorId(int id);
     
+    List<Producto> obtenerProductosEnStockPorCategoria(int idCategoria);
+    
     boolean agregarCategoria(Categoria categoria);
     List<Categoria> obtenerCategorias();
 }

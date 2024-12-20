@@ -3,21 +3,18 @@
 <html class="no-js">
 
 <head>
-	<!-- Basic Page Needs -->
 	<meta charset="utf-8">
 	<title>Nosotros | Quispe Walker</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<!-- Favicons -->
 	<link rel="shortcut icon" href="imgs/IconQuispeWalker.ico">
 	<!-- FONTS -->
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Barlow+Condensed:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Big+Shoulders+Display:100,200,300,400,400italic,500,600,700,700italic,900'>
 	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'>
-	<!-- Bootstrap core CSS -->
+
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<!--CSS -->
 	<link rel='stylesheet' href='css/whiskeyAbout.css'> 
@@ -34,10 +31,10 @@
 			</div>
 			<nav class="menu">
 				<a href="index.jsp">Inicio</a>
-				<a href="piscos.jsp">Piscos</a>
-				<a href="vinos.jsp">Vinos</a>
-				<a href="wiskys.jsp">Wisky</a>
-				<a href="about.jsp">Sobre Nosotros</a>
+				<a href="../ProductoClienteServlet?action=catalogoPorCategoria&idCategoria=1">Piscos</a>
+				<a href="../ProductoClienteServlet?action=catalogoPorCategoria&idCategoria=2">Whiskys</a>
+				<a href="../ProductoClienteServlet?action=catalogoPorCategoria&idCategoria=3">Vinos</a>
+				<a href="#">Sobre Nosotros</a>
 			</nav>
 			<div class="hamburger" id="hamburger">
 				<span></span>

@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jonny Quispe</title>
+    <link rel="shortcut icon" href="imgs/IconQuispeWalker.ico">
+    <title>Inicio | Quispe Walker</title>
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
     <div class="hero">
          <header class="navbar">
         <div class="logo">
-            <img src="imgs/Logo_Quispe_Walker.png" alt="JQLogo">
-            <span>JONNY QUISPE</span>
+            <img src="imgs/LogoQuispeWalker.png" alt="">
+            <span>QUISPE WALKER</span>
         </div>
         <nav class="menu">
-            <a href="index.jsp">Inicio</a>
-            <a href="piscos.jsp">Piscos</a>
-            <a href="vinos.jsp">Vinos</a>
-            <a href="wiskys.jsp">Wisky</a>
-            <a href="about.jsp">About</a>
+            <a href="#">Inicio</a>
+            <a href="../ProductoClienteServlet?action=catalogoPorCategoria&idCategoria=1">Piscos</a>
+            <a href="../ProductoClienteServlet?action=catalogoPorCategoria&idCategoria=2">Whiskys</a>
+            <a href="../ProductoClienteServlet?action=catalogoPorCategoria&idCategoria=3">Vinos</a>
+            <a href="about.jsp">Sobre Nosotros</a>
         </nav>
         <div class="hamburger" id="hamburger">
             <span></span>

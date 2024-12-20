@@ -9,7 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+import dao.DAOFactory;
 import entidades.Producto;
+import interfaces.ProductoInterface;
 import modelos.ProductoModelo;
 
 /**
@@ -18,28 +22,54 @@ import modelos.ProductoModelo;
 @WebServlet("/ProductoClienteServlet")
 public class ProductoClienteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ProductoModelo productoModelo = new ProductoModelo();
+	
+	DAOFactory daoFactory = DAOFactory.getDaoFactory(DAOFactory.MYSQL);
+	ProductoInterface productoclienteDAO = daoFactory.getProductoAdmin();
 	
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		verProductosCliente(request, response);
-	}
+        String action = request.getParameter("action");
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        
+        try {
+            if (action.equals("catalogoPorCategoria")) {
+            	mostrarProductosPorCategoria(request, response);
+            } else {
+                response.getWriter().write("{\"status\":\"error\", \"message\":\"Acción no válida.\"}");
+            }
+        } catch (Exception e) {
+            response.getWriter().write("{\"status\":\"error\", \"message\":\"" + e.getMessage() + "\"}");
+        }
+    }
 	
-    private void verProductosCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Producto> productos = productoModelo.obtenerProductos();
-        request.setAttribute("listProducto", productos);
-        request.getRequestDispatcher("cliente/productos.jsp").forward(request, response);
+	
+    private void mostrarProductosPorCategoria(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        int idCategoria = Integer.parseInt(request.getParameter("idCategoria"));
+        List<Producto> productos = productoclienteDAO.obtenerProductosEnStockPorCategoria(idCategoria);
+
+        request.setAttribute("productos", productos);
+
+        String destino;
+        switch (idCategoria) {
+            case 1:
+                destino = "client/piscos.jsp";
+                break;
+            case 2:
+                destino = "client/wiskys.jsp";
+                break;
+            case 3:
+                destino = "client/vinos.jsp";
+                break;
+            default:
+                destino = "client/index.jsp";
+        }
+
+        request.getRequestDispatcher(destino).forward(request, response);
     }
 
 }

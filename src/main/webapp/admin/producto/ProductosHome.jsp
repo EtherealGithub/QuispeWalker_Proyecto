@@ -358,8 +358,8 @@
 		        alert('El precio debe ser un número mayor a 0.');
 		        return;
 		    }
-		    if (!/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(imagen)) {
-		        alert('La imagen debe ser una URL válida.');
+		    if (!imagen.startsWith('http://') && !imagen.startsWith('https://')) {
+		        alert('La imagen debe ser una URL válida');
 		        return;
 		    }
 		    if (categoria === '') {
@@ -415,8 +415,8 @@
 		        alert('El stock debe ser un número mayor o igual a 0.');
 		        return;
 		    }
-		    if (!/^https?:\/\/.+\.(jpg|jpeg|png|webp|gif)$/i.test(imagen)) {
-		        alert('La imagen debe ser una URL válida.');
+		    if (!imagen.startsWith('http://') && !imagen.startsWith('https://')) {
+		        alert('La imagen debe ser una URL válida');
 		        return;
 		    }
 		    if (categoria === '') {

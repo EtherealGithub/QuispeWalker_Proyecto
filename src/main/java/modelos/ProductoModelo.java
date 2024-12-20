@@ -1,5 +1,6 @@
 package modelos;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -120,6 +121,7 @@ public class ProductoModelo implements ProductoInterface {
         producto.setNombreCategoria(rs.getString("categoria_nombre"));
         return producto;
     }
+    
 
     @Override
     public boolean agregarCategoria(Categoria categoria) {
@@ -151,5 +153,35 @@ public class ProductoModelo implements ProductoInterface {
             e.printStackTrace();
         }
         return categorias;
+    }
+    
+    
+    @Override
+    public List<Producto> obtenerProductosEnStockPorCategoria(int idCategoria) {
+        List<Producto> productos = new ArrayList<>();
+        String sql = "{CALL ObtenerProductosEnStockPorCategoria(?)}";
+
+        try (Connection conn = MySqlConexion.getConexion();
+             CallableStatement cs = conn.prepareCall(sql)) {
+             
+            cs.setInt(1, idCategoria);
+
+            try (ResultSet rs = cs.executeQuery()) {
+                while (rs.next()) {
+                    Producto producto = new Producto();
+                    producto.setId(rs.getInt("idProducto"));
+                    producto.setNombre(rs.getString("nombreProducto"));
+                    producto.setPrecio(rs.getDouble("precio"));
+                    producto.setIdCategoria(rs.getInt("idCategoria"));
+                    producto.setNombreCategoria(rs.getString("nombreCategoria"));
+                    producto.setImagen(rs.getString("imagen"));
+                    productos.add(producto);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productos;
     }
 }

@@ -1,25 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JQ-Vinos</title>
-    <link rel="stylesheet" href="css/productos.css">
+    <link rel="stylesheet" href="client/css/productos.css">
 </head>
 <body>
     <header class="navbar">
         <div class="logo">
-            <img src="imgs/LOGO-JQ.png" alt="JQLogo">
-            <span>JONNY QUISPE</span>
+            <img src="client/imgs/LOGO-JQ.png" alt="JQLogo">
+            <span>QUISPE WALKER</span>
         </div>
         <nav class="menu">
-            <a href="index.jsp">Inicio</a>
-            <a href="piscos.jsp">Piscos</a>
-            <a href="vinos.jsp">Vinos</a>
-            <a href="wiskys.jsp">Wisky</a>
-            <a href="about.jsp">About</a>
+            <a href="client/index.jsp">Inicio</a>
+            <a href="ProductoClienteServlet?action=catalogoPorCategoria&idCategoria=1">Piscos</a>
+            <a href="ProductoClienteServlet?action=catalogoPorCategoria&idCategoria=2">Whiskys</a>
+            <a href="#">Vinos</a>
+            <a href="client/about.jsp">Sobre Nosotros</a>
         </nav>
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -30,7 +31,7 @@
     
     <main>
         <section class="hero">
-            <img src="imgs/BannerVino.jpg" alt="">
+            <img src="client/imgs/BannerVino.jpg" alt="">
             <h1>Bienvenido a Jonny Quispe</h1>
             <p>Explora nuestra colección de whiskies y vinos exclusivos</p>
         </section>
@@ -38,30 +39,14 @@
         <section class="product container">
             <h2>Catálogo de Productos</h2>
             <div class="product-grid">
-                <article class="product-item">
-                    <img src="images/1.jpg" alt="Gold Label">
-                    <h3>Gold Label</h3>
-                    <p class="price">$200</p>
-                    <a href="#" class="btn">Comprar</a>
-                </article>
-                <article class="product-item">
-                    <img src="images/2.jpg" alt="Cardhu">
-                    <h3>Cardhu</h3>
-                    <p class="price">$150</p>
-                    <a href="#" class="btn">Comprar</a>
-                </article>
-                <article class="product-item">
-                    <img src="images/3.jpg" alt="Whiskey Green">
-                    <h3>Whiskey Green</h3>
-                    <p class="price">$100</p>
-                    <a href="#" class="btn">Comprar</a>
-                </article>
-                <article class="product-item">
-                    <img src="images/4.jpg" alt="Ron Caldas">
-                    <h3>Ron Caldas</h3>
-                    <p class="price">$200</p>
-                    <a href="#" class="btn">Comprar</a>
-                </article>
+                <c:forEach var="producto" items="${productos}">
+                    <article class="product-item">
+                        <img src="${producto.imagen}" alt="${producto.nombre}">
+                        <h3>${producto.nombre}</h3>
+                        <p class="price">$${producto.precio}</p>
+                        <a href="#" class="btn">Comprar</a>
+                    </article>
+                </c:forEach>
             </div>
         </section>
     </main>
@@ -88,11 +73,11 @@
             <div class="footer-social">
                 <h3>Síguenos</h3>
                 <div class="social-icons">
-                	<a href="#"><img src="imgs/twitter.png" alt="Twitter"></a>
-                    <a href="#"><img src="imgs/icono facebook.jpg" alt="Facebook"></a>
-                    <a href="#"><img src="imgs/icono whatsapp.jpg" alt="WhatsApp"></a>
-                    <a href="#"><img src="imgs/icono tiktok.jpg" alt="TikTok"></a>
-                    <a href="#"><img src="imgs/youtube.png" alt="YouTube"></a>
+                	<a href="#"><img src="client/imgs/twitter.png" alt="Twitter"></a>
+                    <a href="#"><img src="client/imgs/icono facebook.jpg" alt="Facebook"></a>
+                    <a href="#"><img src="client/imgs/icono whatsapp.jpg" alt="WhatsApp"></a>
+                    <a href="#"><img src="client/imgs/icono tiktok.jpg" alt="TikTok"></a>
+                    <a href="#"><img src="client/imgs/youtube.png" alt="YouTube"></a>
                 </div>
             </div>
         </div>
@@ -101,5 +86,5 @@
         </div>
     </footer>
 </body>
-<script src="js/productos.js"></script>
+<script src="client/js/productos.js"></script>
 </html>

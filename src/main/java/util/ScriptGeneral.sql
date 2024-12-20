@@ -104,7 +104,7 @@ VALUES
     ('Vino Rosé Dulce', 140.00, 60, 'https://www.plazavea.com.pe/vino-rose-dulce-botella-750ml/p', 3),
     ('Vino Espumante Brut', 150.00, 70, 'https://www.plazavea.com.pe/vino-espumante-brut-botella-750ml/p', 3),
     ('Vino Tinto Gran Reserva', 180.00, 40, 'https://www.plazavea.com.pe/vino-tinto-gran-reserva-botella-750ml/p', 3),
-    ('Vino Blanco Afrutado', 135.00, 90, 'https://www.plazavea.com.pe/vino-blanco-afrutado-botella-750ml/p', 3),
+    ('Vino Blanco Afrutado', 135.00, 90, 'https://www.plazavea.com.pe/vino-blanco-afrutado-botella-750ml/p', 3);
 
 
 DELIMITER $$
