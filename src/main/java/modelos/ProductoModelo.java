@@ -33,8 +33,7 @@ public class ProductoModelo implements ProductoInterface {
             ps.setDouble(2, producto.getPrecio());
             ps.setInt(3, producto.getStock());
             ps.setString(4, producto.getImagen());
-
-            ps.setInt(5, producto.getCategoria().getIdCategoria());
+            ps.setInt(5, producto.getIdCategoria());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -53,7 +52,7 @@ public class ProductoModelo implements ProductoInterface {
             ps.setInt(3, producto.getStock());
             ps.setString(4, producto.getImagen());
 
-            ps.setInt(5, producto.getCategoria().getIdCategoria());
+            ps.setInt(5, producto.getIdCategoria());
             ps.setInt(6, producto.getId());
 
             return ps.executeUpdate() > 0;
@@ -111,19 +110,15 @@ public class ProductoModelo implements ProductoInterface {
     }
 
     private Producto mapearProducto(ResultSet rs) throws SQLException {
-        Categoria categoria = new Categoria(
-            rs.getInt("id_categoria"),
-            rs.getString("categoria_nombre")
-        );
-
-        return new Producto(
-            rs.getInt("id"),
-            rs.getString("nombre"),
-            rs.getDouble("precio"),
-            rs.getInt("stock"),
-            rs.getString("imagen"),
-            categoria
-        );
+        Producto producto = new Producto();
+        producto.setId(rs.getInt("id"));
+        producto.setNombre(rs.getString("nombre"));
+        producto.setPrecio(rs.getDouble("precio"));
+        producto.setStock(rs.getInt("stock"));
+        producto.setImagen(rs.getString("imagen"));
+        producto.setIdCategoria(rs.getInt("id_categoria"));
+        producto.setNombreCategoria(rs.getString("categoria_nombre"));
+        return producto;
     }
 
     @Override

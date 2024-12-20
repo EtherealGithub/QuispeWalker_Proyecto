@@ -106,108 +106,51 @@
                     
                     <hr>
 
-                    <table id="datatablesSimple" class="table table-bordered table-hover">
+                    <table id="tablaProductos" class="table table-bordered table-hover">
 						<thead>
 						    <tr>
 						        <th>Nombre</th>
 						        <th>Precio</th>
 						        <th>Stock</th>
 						        <th>Imagen</th>
-						        <th>Categoría</th> <!-- Nueva columna -->
+						        <th>Categoría</th>
 						        <th style="width: 5%" data-sortable="false"></th>
 						        <th style="width: 5%" data-sortable="false"></th>
 						    </tr>
 						</thead>
 						<tbody>
-						    <% 
-						        List<Producto> productos = (List<Producto>) request.getAttribute("listProducto");
-						        if (productos != null) {
-						            for (Producto producto : productos) {
-						    %>
-						            <tr>
-						                <td><%= producto.getNombre() %></td>
-						                <td><%= producto.getPrecio() %></td>
-						                <td><%= producto.getStock() %></td>
-						                <td><img src="<%= producto.getImagen() %>" alt="Imagen del Producto" style="width: 50px;"></td>
-						                <td><%= producto.getCategoria().getNombre() %></td>
-						                <td>
-						                    <button type="button" class="btn btn-warning btn-sm" 
-						                            data-bs-toggle="modal" 
-						                            data-bs-target="#editarProductoModal"
-						                            data-bs-id="<%= producto.getId() %>"
-						                            data-bs-nombre="<%= producto.getNombre() %>"
-						                            data-bs-precio="<%= producto.getPrecio() %>"
-						                            data-bs-stock="<%= producto.getStock() %>"
-						                            data-bs-imagen="<%= producto.getImagen() %>"
-						                            data-bs-id-categoria="<%= producto.getCategoria().getIdCategoria() %>">
-						                        <i class="bi bi-pencil"></i> Editar
-						                    </button>
-						                </td>
-						                <td>
-						                    <button type="button" 
-						                            class="btn btn-danger btn-sm" 
-						                            data-bs-toggle="modal" 
-						                            data-bs-target="#eliminaModal" 
-						                            data-bs-id="<%= producto.getId() %>">
-						                        <i class="bi bi-trash"></i> Eliminar
-						                    </button>
-						                </td>
-						            </tr>
-						    <% 
-						            }
-						        }
-						    %>
+					        <c:forEach var="producto" items="${listProducto}">
+					            <tr>
+					                <td>${producto.nombre}</td>
+					                <td>${producto.precio}</td>
+					                <td>${producto.stock}</td>
+					                <td><img src="${producto.imagen}" alt="" style="width: 50px;"></td>
+					                <td>${producto.nombreCategoria}</td>
+					                <td>
+										<button type="button" class="btn btn-warning btn-sm"
+										        onclick="openDialogEditProducts(${producto.id})">
+										    <i class="bi bi-pencil"></i> Editar
+										</button>									
+					                </td>
+					                <td>
+					                    <button type="button" class="btn btn-danger btn-sm" 
+					                            onclick="openDialogClearProducts(${producto.id}, '${producto.nombre}')">
+					                        <i class="bi bi-trash"></i> Eliminar
+					                    </button>
+					                </td>
+					            </tr>
+					        </c:forEach>
 						</tbody>
                     </table>
                     
                     <hr>
                     
-   						<% 
-						    String mensajeExito = (String) request.getAttribute("mensajeExito");
-						    if (mensajeExito != null) {
-						%>
-						    <div class="alert alert-success" role="alert" id="mensajeExito">
-						        <%= mensajeExito %>
-						    </div>
-						<% 
-						    }
-						
-						    String mensajeError = (String) request.getAttribute("mensajeError");
-						    if (mensajeError != null) {
-						%>
-						    <div class="alert alert-danger" role="alert" id="mensajeError">
-						        <%= mensajeError %>
-						    </div>
-						<% 
-						    }
-						%>
+					<div id="mensajeExito" class="alert alert-success" style="display: none;"></div>
+					<div id="mensajeError" class="alert alert-danger" style="display: none;"></div>
+
                 </div>
             </main>
-            
-            <%
-            	List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
-			%>
-            
-
-	        <!-- Modal de confirmación de eliminación -->
-	        <div class="modal fade" id="eliminaModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
-	            <div class="modal-dialog modal-sm" role="document">
-	                <div class="modal-content">
-	                    <div class="modal-header">
-	                        <h5 class="modal-title" id="modalTitleId">Alerta</h5>
-	                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	                    </div>
-	                    <div class="modal-body">¿Desea eliminar este producto?</div>
-	                    <div class="modal-footer">
-	                        <form action="ProductoServlet?action=eliminar" method="post">
-	                            <input type="hidden" name="id" id="productoId">
-	                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-	                            <button type="submit" class="btn btn-danger">Eliminar</button>
-	                        </form>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
+                       
 	        
 		    <!-- Modal para agregar productos -->
 	        <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-hidden="true" role="dialog">
@@ -219,33 +162,34 @@
 	                    </div>
                         <div class="modal-body">
 		                    <form role="form">
-		                            <div class="form-group">
-		                                <label for="nombre" class="form-label">Nombre</label>
-		                                <input id="agregarNombre" name="nombre" type="text" class="form-control" required>
-		                            </div>
-		                            <div class="form-group">
-		                                <label for="precio" class="form-label">Precio</label>
-		                                <input id="agregarPrecio" name="precio" type="number" class="form-control" required>
-		                            </div>
-		                            <div class="form-group">
-		                                <label for="stock" class="form-label">Stock</label>
-		                                <input id="agregarStock" name="stock" type="number" class="form-control" required >
-		                            </div>
-		                            <div class="form-group">
-		                                <label for="imagen" class="form-label">Imagen URL</label>
-		                                <input id="agregarImagen" name="imagen" type="text" class="form-control" required>
-		                            </div>
-		                            <div class="form-group">
-		                                <label for="categoria">Categoría</label>
-		                                <select id="agregarCategoria" name="id_categoria" class="form-select" required>
-	                           				
-	                           				<option value="" >Seleccionar categoria</option>
-				                            <c:forEach var="itemCategoria" items="${categorias}">
-				                                <option value="${itemCategoria.idCategoria}">${itemCategoria.nombre}</option>
-				                            </c:forEach>
-				                            
-		                                </select>
-		                            </div>
+	                            <div class="form-group">
+	                                <label for="agregarNombre" class="form-label">Nombre</label>
+	                                <input id="agregarNombre" type="text" class="form-control" required>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="agregarPrecio" class="form-label">Precio</label>
+	                                <input id="agregarPrecio" type="number" class="form-control" required>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="agregarStock" class="form-label">Stock</label>
+	                                <input id="agregarStock" type="number" class="form-control" required >
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="agregarImagen" class="form-label">Imagen URL</label>
+	                                <input id="agregarImagen" type="text" class="form-control" required>
+	                            </div>
+	                            
+	                            <div class="form-group">
+	                                <label for="agregarCategoria" class="form-label">Categoría</label>
+	                                <select id="agregarCategoria" class="form-select" required>
+                           				
+                           				<option value="" >Seleccionar categoria</option>
+			                            <c:forEach var="itemCategoria" items="${categorias}">
+			                                <option value="${itemCategoria.idCategoria}">${itemCategoria.nombre}</option>
+			                            </c:forEach>
+			                            
+	                                </select>
+	                            </div>
 		                    </form>
                         </div>
 	                    <div class="modal-footer">
@@ -255,59 +199,67 @@
 	            </div>
 	        </div>
 		    
-			<!-- Modal para editar producto -->
-	        <div class="modal fade" id="editarProductoModal" tabindex="-1" aria-labelledby="editarProductoModalLabel" aria-hidden="true">
+	        <div class="modal fade" id="modalEditarProducto" tabindex="-1" aria-hidden="true" role="dialog">
 	            <div class="modal-dialog">
 	                <div class="modal-content">
 	                    <div class="modal-header">
-	                        <h5 class="modal-title" id="editarProductoModalLabel">Editar Producto</h5>
+	                        <h5 class="modal-title" >Editar Producto</h5>
 	                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                    </div>
-						<form action="ProductoServlet?action=editar" method="POST">
-						    <div class="modal-body">
-						        <input type="hidden" id="idProducto" name="id">
-						        <div class="form-group">
-						            <label for="nombreProducto" class="form-label">Nombre</label>
-						            <input type="text" class="form-control" id="nombreProducto" name="nombre" required>
-						        </div>
-						        <div class="form-group">
-						            <label for="precioProducto" class="form-label">Precio</label>
-						            <input type="number" class="form-control" id="precioProducto" name="precio" required>
-						        </div>
-						        <div class="form-group">
-						            <label for="stockProducto" class="form-label">Stock</label>
-						            <input type="number" class="form-control" id="stockProducto" name="stock" required>
-						        </div>
-						        <div class="form-group">
-						            <label for="imagenProducto" class="form-label">Imagen URL</label>
-						            <input type="text" class="form-control" id="imagenProducto" name="imagen">
-						        </div>
-	                            <div class="form-group">
-	                                <label for="categoriaEditar">Categoría</label>
-	                                <select class="form-select" id="categoriaEditar" name="id_categoria" required>
-	                                    <option value=""> </option>
-	                                    <% 
-	                                        for (Categoria categoria : categorias) {
-	                                    %>
-	                                    <option value="<%= categoria.getIdCategoria() %>"><%= categoria.getNombre() %></option>
-	                                    <% 
-	                                        }
-	                                    %>
-	                                </select>
-	                            </div>
-						    </div>
-						    <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-						        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-						    </div>
-						</form>
-
+					    <div class="modal-body">
+							<form role="form">
+							        <input type="hidden" id="actualizarId">
+							        <div class="form-group">
+							            <label for="actualizarNombre" class="form-label">Nombre</label>
+							            <input id="actualizarNombre" type="text" class="form-control" required>
+							        </div>
+							        <div class="form-group">
+							            <label for="actualizarPrecio" class="form-label">Precio</label>
+							            <input id="actualizarPrecio" type="number" class="form-control" required>
+							        </div>
+							        <div class="form-group">
+							            <label for="actualizarStock" class="form-label">Stock</label>
+							            <input id="actualizarStock" type="number" class="form-control" required>
+							        </div>
+							        <div class="form-group">
+							            <label for="actualizarImagen" class="form-label">Imagen URL</label>
+							            <input id="actualizarImagen" type="text" class="form-control" required>
+							        </div>
+		                            <div class="form-group">
+		                                <label for="actualizarCategoria" class="form-label">Categoría</label>
+		                                <select id="actualizarCategoria" class="form-select" required>
+											<c:forEach var="categoria" items="${categorias}">
+											    <option value="${categoria.idCategoria}">${categoria.nombre}</option>
+											</c:forEach>
+		                                </select>
+		                            </div>
+							</form>
+					    </div>
+					    <div class="modal-footer">
+					    	<button type="button" class="btn btn-primary" onclick="modificarProducto()">Guardar Cambios</button>
+					    </div>
 	                </div>
 	            </div>
-
-			
-			
-        </div>
+        	</div>
+        	
+	        <div class="modal fade" id="modalBorrarProducto" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-hidden="true">
+	            <div class="modal-dialog modal-sm" role="document">
+	                <div class="modal-content">
+	                    <div class="modal-header">
+	                        <h5 class="modal-title" id="modalTitleId">Alerta</h5>
+	                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                    </div>
+	                    <div class="modal-body">¿Desea eliminar este producto?</div>
+	                    <p><strong class="modal-body" id="borrarNombreLabel"></strong></p>
+	                    <div class="modal-footer">
+	                        <form role="form">
+	                            <input type="hidden" name="id" id="borrarId">
+	                            <button type="submit" class="btn btn-danger" onclick="borrarProducto()">Eliminar</button>
+	                        </form>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
     </div>
 	
 </div>
@@ -319,37 +271,9 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 	<script type="text/javascript">
-	    
-		function openDialogAddProducts(){
-			$('#modalAgregarProducto').modal('show');
-		}
-	    
-		function agregarProducto() {
-			const data = {
-				action: 'agregarService',
-				requestName: $('#agregarNombre').val(),
-				requestPrice: $('#agregarPrecio').val(),
-				requestStock: $('#agregarStock').val(),
-				requestImage: $('#agregarImagen').val(),
-				requestCategory: $('#agregarCategoria').val()
-			};
-		
-			$.ajax({
-				url: 'ProductoServlet',
-				method: 'POST',
-				data: data,
-				success: function () {
-					location.reload();
-				},
-				error: function () {
-					console.error('Error al registrar el producto.');
-				}
-			});
-		}
-		
-		// Configuracion de DataTablesx
+	
 	    (function configureDataTables() {
-	        const datatablesSimple = document.getElementById('datatablesSimple');
+	        const datatablesSimple = document.getElementById('tablaProductos');
 	        if (datatablesSimple) {
 	            new simpleDatatables.DataTable(datatablesSimple, {
 	                searchable: true,
@@ -366,53 +290,142 @@
 	            });
 	        }
 	    })();
-	    	
-	    // Configuracion del modal de eliminacion
-	    (function configureDeleteModal() {
-	        const eliminaModal = document.getElementById('eliminaModal');
-	        if (eliminaModal) {
-	            eliminaModal.addEventListener('show.bs.modal', function(event) {
-	                const button = event.relatedTarget;
-	                const id = button.getAttribute('data-bs-id');
-	                eliminaModal.querySelector('#productoId').value = id;
-	            });
-	        }
-	    })();
+		
+		function openDialogAddProducts(){
+			$('#modalAgregarProducto').modal('show');
+		}
+		
+		function openDialogEditProducts(id) {
+		    $.ajax({
+		        url: 'ProductoServlet',
+		        method: 'GET',
+		        data: { action: 'detalleService', id: id },
+		        success: function (response) {
+		            $('#actualizarId').val(response.id);
+		            $('#actualizarNombre').val(response.nombre);
+		            $('#actualizarPrecio').val(response.precio);
+		            $('#actualizarStock').val(response.stock);
+		            $('#actualizarImagen').val(response.imagen);
+		            $('#actualizarCategoria').val(response.idCategoria);
+
+		            $('#modalEditarProducto').modal('show');
+		        },
+		        error: function () {
+		            mostrarMensajeError('Error al obtener los detalles del producto.');
+		        }
+		    });
+		}
+		
+		function openDialogClearProducts(id, nombre) {
+		    document.getElementById('borrarId').value = id;
+		    document.getElementById('borrarNombreLabel').textContent = nombre;
+
+		    $('#modalBorrarProducto').modal('show');
+		}
+			    		
+		function agregarProducto() {
+		    const data = {
+		        action: 'agregarService',
+		        requestName: $('#agregarNombre').val(),
+		        requestPrice: $('#agregarPrecio').val(),
+		        requestStock: $('#agregarStock').val(),
+		        requestImage: $('#agregarImagen').val(),
+		        requestCategory: $('#agregarCategoria').val()
+		    };
+
+		    $.ajax({
+		        url: 'ProductoServlet',
+		        method: 'POST',
+		        data: data,
+		        success: function (response) {
+		        	$('#modalAgregarProducto').modal('hide');
+		        	if (response.status === 'success') {
+		            	mostrarMensajeExito(response.message);
+		                location.reload();
+		            } else {
+		            	mostrarMensajeError(response.message);
+		            }
+		        },
+		        error: function () {
+		            mostrarMensajeError('Error al agregar el producto.');
+		        }
+		    });
+		}
+		
+		function modificarProducto() {
+		    const data = {
+		        action: 'modificarService',
+		        requestId: $('#actualizarId').val(),
+		        requestName: $('#actualizarNombre').val(),
+		        requestPrice: $('#actualizarPrecio').val(),
+		        requestStock: $('#actualizarStock').val(),
+		        requestImage: $('#actualizarImagen').val(),
+		        requestCategory: $('#actualizarCategoria').val(),
+		    };
+
+		    $.ajax({
+		        url: 'ProductoServlet',
+		        method: 'POST',
+		        data: data,
+		        success: function (response) {
+		        	document.activeElement.blur();
+		        	$('#modalEditarProducto').modal('hide');
+		            if (response.status === 'success') {
+		                mostrarMensajeExito(response.message);
+		                location.reload();
+		            } else {
+		                mostrarMensajeError(response.message);
+		            }
+		        },
+		        error: function () {
+		            mostrarMensajeError('Error al modificar el producto.');
+		        },
+		    });
+		}		
+		
+		function borrarProducto() {
+		    const data = {
+		        action: 'borrarService',
+		        requestId: $('#borrarId').val(),
+		    };
+		    
+		    $.ajax({
+		        url: 'ProductoServlet',
+		        method: 'POST',
+		        data: data,
+		        success: function (response) {
+		            $('#modalBorrarProducto').modal('hide'); 
+		            if (response.status === 'success') {
+		                mostrarMensajeExito(response.message); 
+		                location.reload();
+		            } else {
+		                mostrarMensajeError(response.message);
+		            }
+		        },
+		        error: function () {
+		            mostrarMensajeError('Error al eliminar el producto.'); 
+		        }
+		    });
+		}
 	
-	    // Ocultar mensajes
-	    (function autoHideMessages() {
+	    function mostrarMensajeExito(mensaje) {
+	        const mensajeDiv = $('#mensajeExito');
+	        mensajeDiv.text(mensaje).show();
 	        setTimeout(() => {
-	            ['mensajeExito', 'mensajeError'].forEach(id => {
-	                const element = document.getElementById(id);
-	                if (element) element.style.display = 'none';
-	            });
-	        }, 2000);
-	    })();
-	
+	            mensajeDiv.fadeOut();
+	        }, 3000);
+	    }
 
-	</script>
-	
-	<script>
-		let editarProductoModal = document.getElementById('editarProductoModal');
-		editarProductoModal.addEventListener('show.bs.modal', function(event) {
-		    let button = event.relatedTarget;
-	
-		    let id = button.getAttribute('data-bs-id');
-		    let nombre = button.getAttribute('data-bs-nombre');
-		    let precio = button.getAttribute('data-bs-precio');
-		    let stock = button.getAttribute('data-bs-stock');
-		    let imagen = button.getAttribute('data-bs-imagen');
-		    let categoriaId = button.getAttribute('data-bs-id-categoria');
-	
-		    editarProductoModal.querySelector('#idProducto').value = id;
-		    editarProductoModal.querySelector('#nombreProducto').value = nombre;
-		    editarProductoModal.querySelector('#precioProducto').value = precio;
-		    editarProductoModal.querySelector('#stockProducto').value = stock;
-		    editarProductoModal.querySelector('#imagenProducto').value = imagen;
-		    editarProductoModal.querySelector('#categoriaEditar').value = categoriaId;
-		});
+	    function mostrarMensajeError(mensaje) {
+	        const mensajeDiv = $('#mensajeError');
+	        mensajeDiv.text(mensaje).show();
+	        setTimeout(() => {
+	            mensajeDiv.fadeOut();
+	        }, 3000);
+	    }
 
-	</script>
 
+	</script>	
+	
 </body>
 </html>

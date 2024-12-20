@@ -6,24 +6,25 @@ public class Producto {
     private Double precio;
     private Integer stock;
     private String imagen;
-    private Categoria categoria;
+    private Integer idCategoria;
+    private String nombreCategoria;
 
     // Constructores
-    public Producto(Integer id, String nombre, Double precio, Integer stock, String imagen, Categoria categoria) {
+    public Producto(Integer id, String nombre, Double precio, Integer stock, String imagen, Integer idCategoria) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
         this.imagen = imagen;
-        this.categoria = categoria;
+        this.idCategoria = idCategoria;
     }
-    
-    public Producto(String nombre, Double precio, Integer stock, String imagen, Categoria categoria) {
+
+    public Producto(String nombre, Double precio, Integer stock, String imagen, Integer idCategoria) {
         this.nombre = nombre;
         this.precio = precio;
         this.stock = stock;
         this.imagen = imagen;
-        this.categoria = categoria;
+        this.idCategoria = idCategoria;
     }
     
     public Producto()
@@ -72,12 +73,20 @@ public class Producto {
         this.imagen = imagen;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public Integer getIdCategoria() {
+        return idCategoria;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setIdCategoria(Integer idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+    
+    public String getNombreCategoria() {
+        return nombreCategoria;
+    }
+
+    public void setNombreCategoria(String nombreCategoria) {
+        this.nombreCategoria = nombreCategoria;
     }
 }
 
