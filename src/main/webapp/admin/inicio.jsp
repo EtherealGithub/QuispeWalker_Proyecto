@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +45,16 @@
 
 <div class="d-flex">
     <nav class="sidebar d-flex flex-column p-3">
-        <h4 class="text-center mb-4">Admin</h4>
+        <h4 class="text-center mb-4">
+            <c:choose>
+                <c:when test="${sessionScope.rol == 'OWNER'}">
+                    Owner Dashboard
+                </c:when>
+                <c:when test="${sessionScope.rol == 'ADMIN'}">
+                    Admin Dashboard
+                </c:when>
+            </c:choose>
+        </h4>
         <ul class="nav flex-column">
             <li class="nav-item mb-2">
                 <a class="nav-link active" href="inicio.jsp">
@@ -66,11 +76,31 @@
                     <i class="bi bi-person-fill"></i> Administradores
                 </a>
             </li>
+            <li class="nav-item mt-4">
+				 <form action="<%= request.getContextPath() %>/LoginServlet" method="post">
+                    <input type="hidden" name="type" value="logout">
+                    <button class="btn btn-outline-light" type="submit">
+                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                    </button>
+                </form>
+            </li>
         </ul>
     </nav>
 
     <div class="content">
-        <h1 class="text-center">Bienvenido a la Vista de Administrador</h1>
+        <h1 class="text-center">
+            <c:choose>
+                <c:when test="${sessionScope.rol == 'OWNER'}">
+                    Bienvenido a la Vista de Owner
+                </c:when>
+                <c:when test="${sessionScope.rol == 'ADMIN'}">
+                    Bienvenido a la Vista de Administrador
+                </c:when>
+                <c:otherwise>
+                    Bienvenido
+                </c:otherwise>
+            </c:choose>
+        </h1>
         <p>Este es el contenido principal de tu aplicación.</p>
     </div>
 </div>

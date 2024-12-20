@@ -11,46 +11,49 @@ import util.MySqlConexion;
 
 public class AdministradorModelo implements AdministradorInterface {
 
-	    public Administrador authenticate(String correo, String contrasena) {
-	        Administrador admin = null;
-	        Connection cn = null;
-	        PreparedStatement psm = null;
-	        ResultSet rs = null;
+    @Override
+    public Administrador authenticate(String correo, String contrasena) {
+        Administrador admin = null;
+        Connection cn = null;
+        PreparedStatement psm = null;
+        ResultSet rs = null;
 
-	        try {
-	            cn = MySqlConexion.getConexion();
-	            String sql = "SELECT * FROM administrador WHERE correo = ? AND contrasena = ?";
-	            psm = cn.prepareStatement(sql);
-	            psm.setString(1, correo);
-	            psm.setString(2, contrasena);
-	            rs = psm.executeQuery();
+        try {
+            cn = MySqlConexion.getConexion();
+            String sql = "SELECT a.*, r.nombre AS rolNombre " +
+                         "FROM administrador a " +
+                         "JOIN rol r ON a.idRol = r.idRol " +
+                         "WHERE a.correo = ? AND a.contrasena = ?";
+            psm = cn.prepareStatement(sql);
+            psm.setString(1, correo);
+            psm.setString(2, contrasena);
+            rs = psm.executeQuery();
 
-	            if (rs.next()) {
-	                admin = new Administrador();
-	                admin.setIdUsuario(rs.getInt("idUsuario"));
-	                admin.setNombre(rs.getString("nombre"));
-	                admin.setApellido(rs.getString("apellido"));
-	                admin.setCorreo(rs.getString("correo"));
-	                admin.setContrasena(rs.getString("contrasena"));
-	                admin.setUrl(rs.getString("url"));
-	                admin.setFechaRegistro(rs.getTimestamp("fechaRegistro"));
-	                admin.setIdRol(rs.getInt("idRol"));
-	                
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        } finally {
-	            try {
-	                if (rs != null) rs.close();
-	                if (psm != null) psm.close();
-	                if (cn != null) cn.close();
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        }
-
-	        return admin;
-	    }
+            if (rs.next()) {
+                admin = new Administrador();
+                admin.setIdUsuario(rs.getInt("idUsuario"));
+                admin.setNombre(rs.getString("nombre"));
+                admin.setApellido(rs.getString("apellido"));
+                admin.setCorreo(rs.getString("correo"));
+                admin.setContrasena(rs.getString("contrasena"));
+                admin.setUrl(rs.getString("url"));
+                admin.setFechaRegistro(rs.getTimestamp("fechaRegistro"));
+                admin.setIdRol(rs.getInt("idRol"));
+                admin.setRolNombre(rs.getString("rolNombre"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (psm != null) psm.close();
+                if (cn != null) cn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return admin;
+    }
 	
 	
 	
@@ -75,7 +78,7 @@ public class AdministradorModelo implements AdministradorInterface {
                 admin.setCorreo(rs.getString("correo"));
                 admin.setUrl(rs.getString("url"));
                 admin.setFechaRegistro(rs.getTimestamp("fechaRegistro"));
-                admin.setRolNombre(rs.getString("rolNombre")); // Obtener el nombre del rol
+                admin.setRolNombre(rs.getString("rolNombre"));
                 admins.add(admin);
             }
         } catch (Exception e) {
@@ -89,13 +92,12 @@ public class AdministradorModelo implements AdministradorInterface {
                 e.printStackTrace();
             }
         }
-
         return admins;
     }
+    
 
     @Override
     public Administrador registerAdministrator(Administrador admin) {
-        int value = 0;
         Connection cn = null;
         PreparedStatement psm = null;
 
@@ -110,7 +112,8 @@ public class AdministradorModelo implements AdministradorInterface {
             psm.setString(5, admin.getUrl());
             psm.setInt(6, admin.getIdRol());
 
-            value = psm.executeUpdate();
+            int result = psm.executeUpdate();
+            if (result > 0) return admin;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -121,13 +124,11 @@ public class AdministradorModelo implements AdministradorInterface {
                 e.printStackTrace();
             }
         }
-
-        return value > 0 ? admin : null;
+        return null;
     }
 
     @Override
     public Administrador updateAdministrator(Administrador admin) {
-        int value = 0;
         Connection cn = null;
         PreparedStatement psm = null;
 
@@ -143,7 +144,8 @@ public class AdministradorModelo implements AdministradorInterface {
             psm.setString(6, admin.getUrl());
             psm.setInt(7, admin.getIdRol());
 
-            value = psm.executeUpdate();
+            int result = psm.executeUpdate();
+            if (result > 0) return admin;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -154,13 +156,11 @@ public class AdministradorModelo implements AdministradorInterface {
                 e.printStackTrace();
             }
         }
-
-        return value > 0 ? admin : null;
+        return null;
     }
 
     @Override
     public Administrador deleteAdministrator(int idUsuario) {
-        int value = 0;
         Connection cn = null;
         PreparedStatement psm = null;
 
@@ -170,7 +170,8 @@ public class AdministradorModelo implements AdministradorInterface {
             psm = cn.prepareStatement(sql);
             psm.setInt(1, idUsuario);
 
-            value = psm.executeUpdate();
+            int result = psm.executeUpdate();
+            if (result > 0) return new Administrador();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -181,8 +182,7 @@ public class AdministradorModelo implements AdministradorInterface {
                 e.printStackTrace();
             }
         }
-
-        return value > 0 ? new Administrador() : null;
+        return null;
     }
 
     @Override
@@ -194,7 +194,7 @@ public class AdministradorModelo implements AdministradorInterface {
 
         try {
             cn = MySqlConexion.getConexion();
-            String sql = "CALL sp_getAdministratorById(?)"; // Necesitas crear este procedimiento si no existe
+            String sql = "CALL sp_getAdministratorById(?)";
             psm = cn.prepareStatement(sql);
             psm.setInt(1, idUsuario);
             rs = psm.executeQuery();
@@ -221,7 +221,6 @@ public class AdministradorModelo implements AdministradorInterface {
                 e.printStackTrace();
             }
         }
-
         return admin;
     }
 }
